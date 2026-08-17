@@ -459,6 +459,7 @@ button { font-family: inherit; cursor: pointer; }
 .portfolio-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-4); }
 .portfolio-item { width: calc(25% - var(--space-4) * 3 / 4); }
 .portfolio-item.wide-3 { width: calc(33.333% - var(--space-4) * 2 / 3); }
+.grid-3 .portfolio-item.wide-3 { width: auto; }
 .portfolio-thumb {
   cursor: pointer; aspect-ratio: 1/1; border-radius: var(--radius-media);
   box-shadow: 0 6px 16px rgba(0,0,0,0.15); overflow: hidden; margin-bottom: var(--space-2); position: relative;
