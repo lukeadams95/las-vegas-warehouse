@@ -1,10 +1,14 @@
 /* ==========================================================================
    Las Vegas Warehouse — shared site behavior
-   Injects the header/footer partials, wires up nav + mobile menu + forms.
+   Injects header/footer partials, wires nav + mobile menu + lightbox +
+   review carousel + stubbed forms.
    ========================================================================== */
 
 (function () {
   "use strict";
+
+  var PHONE = "1-800-806-4119";
+  var PHONE_DIGITS = "18008064119";
 
   var NAV = [
     { label: "Home", href: "index.html" },
@@ -20,7 +24,7 @@
       label: "What We Do",
       href: "#",
       children: [
-        { label: "Safe & Secure Art Storage", href: "safe-secure-art-storage.html" },
+        { label: "Safe Secure Art Storage", href: "safe-secure-art-storage.html" },
         { label: "Convention Storage", href: "convention-storage.html" },
         { label: "Antiques & Auctions", href: "antiques-and-auctions.html" },
         { label: "Cross Docking", href: "cross-docking.html" }
@@ -29,17 +33,11 @@
     { label: "Fine Art Installation / Removal", href: "fine-art-installation-removal.html" },
     { label: "Our History", href: "our-history.html" },
     { label: "Careers", href: "careers.html" },
-    {
-      label: "Contact Us",
-      href: "contact.html",
-      children: [
-        { label: "Privacy Policy", href: "privacy-policy.html" }
-      ]
-    }
+    { label: "Contact Us", href: "contact.html" }
   ];
 
-  function headerHTML() {
-    var desktopItems = NAV.map(function (item) {
+  function navHTML() {
+    var desktop = NAV.map(function (item) {
       var hasKids = item.children && item.children.length;
       var sub = hasKids
         ? '<ul class="dropdown">' +
@@ -49,15 +47,15 @@
           "</ul>"
         : "";
       return (
-        '<li class="' + (hasKids ? "has-dropdown" : "") + '" data-nav-item="' + item.href + '">' +
+        '<li data-nav-item="' + item.href + '">' +
         '<a href="' + item.href + '" data-nav-href="' + item.href + '">' + item.label +
-        (hasKids ? '<span class="caret">&#9662;</span>' : "") +
+        (hasKids ? '<span class="plus">+</span>' : "") +
         "</a>" + sub +
         "</li>"
       );
     }).join("");
 
-    var mobileItems = NAV.map(function (item, i) {
+    var mobile = NAV.map(function (item, i) {
       var hasKids = item.children && item.children.length;
       var sub = hasKids
         ? '<ul class="mobile-sub" id="mobile-sub-' + i + '">' +
@@ -70,7 +68,7 @@
         "<li>" +
         '<a href="' + item.href + '" data-nav-href="' + item.href + '"' +
         (hasKids ? ' data-mobile-toggle="mobile-sub-' + i + '"' : "") + ">" +
-        item.label + (hasKids ? '<span class="caret">&#9662;</span>' : "") +
+        item.label + (hasKids ? '<span class="plus">+</span>' : "") +
         "</a>" + sub +
         "</li>"
       );
@@ -78,109 +76,92 @@
 
     return (
       '<div class="utility-bar">' +
-        '<div class="container">' +
-          '<a class="u-call" href="tel:18008064119">Call Us : <span>1-800-806-4119</span></a>' +
-          '<div class="u-social">' +
-            '<a href="#" aria-label="Facebook">f</a>' +
-            '<a href="#" aria-label="Twitter / X">x</a>' +
-            '<a href="#" aria-label="LinkedIn">in</a>' +
-          "</div>" +
+        '<div class="u-addr">4640 Polaris Ave. Las Vegas, NV 89103</div>' +
+        '<div class="u-right">' +
+          '<a class="u-call" href="tel:' + PHONE_DIGITS + '">Call Us : ' + PHONE + "</a>" +
+          '<div class="u-sep"></div>' +
+          '<a class="u-contact" href="contact.html">Contact Us</a>' +
         "</div>" +
       "</div>" +
-      '<header class="site-header">' +
-        '<div class="container">' +
-          '<a href="index.html" class="logo">Las Vegas <span>Warehouse</span><small>Storage &middot; Fulfillment &middot; 3PL</small></a>' +
-          '<nav class="main-nav" aria-label="Primary">' +
-            "<ul>" + desktopItems + "</ul>" +
-          "</nav>" +
-          '<div class="header-cta">' +
-            '<a class="btn btn-primary btn-sm" href="contact.html">Talk With Us</a>' +
-            '<button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>' +
-          "</div>" +
+      '<nav class="site-nav">' +
+        '<a href="index.html" class="logo-link"><img src="assets/lvw-logo.webp" alt="Las Vegas Warehouse"></a>' +
+        '<div class="main-nav" aria-label="Primary">' +
+          "<ul>" + desktop + "</ul>" +
         "</div>" +
-      "</header>" +
+        '<button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>' +
+      "</nav>" +
       '<div class="nav-scrim" id="navScrim"></div>' +
       '<aside class="mobile-nav" id="mobileNav">' +
         '<button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>' +
-        '<nav aria-label="Mobile"><ul>' + mobileItems + "</ul></nav>" +
+        '<nav aria-label="Mobile"><ul>' + mobile + "</ul></nav>" +
         '<a class="btn btn-primary btn-block mobile-nav-cta" href="contact.html">Talk With Us</a>' +
       "</aside>"
     );
   }
 
   function footerHTML() {
-    var year = new Date().getFullYear();
     return (
       '<div class="container">' +
         '<div class="footer-grid">' +
           "<div>" +
-            '<a href="index.html" class="logo" style="margin-bottom:14px;">Las Vegas <span>Warehouse</span></a>' +
-            '<p class="footer-blurb">Full-service warehouse storage, fulfillment, and 3PL logistics in Las Vegas, NV &mdash; trusted with fine art, conventions, antiques, and high-value assets for 20+ years.</p>' +
+            '<img class="footer-logo" src="assets/lvw-logo-white.webp" alt="Las Vegas Warehouse">' +
+            '<p class="f-blurb">Full-service warehouse storage, packing, and 3PL fulfillment out of Las Vegas, NV.</p>' +
             '<div class="footer-social">' +
-              '<a href="#" aria-label="Facebook">f</a>' +
-              '<a href="#" aria-label="Twitter / X">x</a>' +
-              '<a href="#" aria-label="LinkedIn">in</a>' +
+              '<a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>' +
+              '<a href="https://x.com/lasvwarehouse" target="_blank" rel="noopener noreferrer" aria-label="X"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l16 16M20 4L4 20"></path></svg></a>' +
+              '<a href="https://www.linkedin.com/company/101277738" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle><path d="M10 9v12M10 13a4 4 0 0 1 8 0v8"></path></svg></a>' +
             "</div>" +
           "</div>" +
           "<div>" +
             "<h4>Explore</h4>" +
-            "<ul>" +
-              '<li><a href="our-history.html">Our History</a></li>' +
-              '<li><a href="warehouse-services.html">Warehouse Services</a></li>' +
-              '<li><a href="get-started.html">Get Started</a></li>' +
-              '<li><a href="careers.html">Careers</a></li>' +
-            "</ul>" +
+            '<div class="footer-links">' +
+              '<a href="our-history.html">Our History</a>' +
+              '<a href="warehouse-services.html">What We Do</a>' +
+              '<a href="get-started.html">Get Started</a>' +
+              '<a href="careers.html">Careers</a>' +
+            "</div>" +
           "</div>" +
           "<div>" +
-            "<h4>What We Do</h4>" +
-            "<ul>" +
-              '<li><a href="safe-secure-art-storage.html">Art Storage</a></li>' +
-              '<li><a href="convention-storage.html">Convention Storage</a></li>' +
-              '<li><a href="antiques-and-auctions.html">Antiques &amp; Auctions</a></li>' +
-              '<li><a href="cross-docking.html">Cross Docking</a></li>' +
-            "</ul>" +
+            "<h4>Support</h4>" +
+            '<div class="footer-links">' +
+              '<a href="contact.html">Contact Us</a>' +
+              '<a href="mailto:Contact@LasVegasWarehouse.com">Contact@LasVegasWarehouse.com</a>' +
+              '<a href="privacy-policy.html">Privacy Policy</a>' +
+            "</div>" +
           "</div>" +
           "<div>" +
-            "<h4>Stay in the Loop</h4>" +
-            '<p style="font-size:0.88rem;">Occasional updates on capacity, services, and storage tips. No spam.</p>' +
-            '<form class="newsletter-form" data-newsletter-form>' +
-              '<input type="email" placeholder="Email address" required aria-label="Email address">' +
-              '<button type="submit" class="btn btn-primary btn-sm">Join</button>' +
-            "</form>" +
+            "<h4>Address</h4>" +
+            "<address>4640 Polaris Ave<br>Las Vegas, NV 89103</address>" +
           "</div>" +
         "</div>" +
-        '<div class="footer-bottom">' +
-          '<span>&copy; ' + year + " Las Vegas Warehouse. All rights reserved. &middot; 4640 Polaris Ave, Las Vegas, NV 89103</span>" +
-          '<ul><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="contact.html">Contact</a></li></ul>' +
-        "</div>" +
+        '<hr class="footer-hr">' +
+        '<div class="footer-bottom">&copy; Las Vegas Warehouse. All rights reserved.</div>' +
       "</div>"
     );
   }
 
   function injectPartials() {
-    var headerMount = document.getElementById("site-header");
-    var footerMount = document.getElementById("site-footer");
-    if (headerMount) headerMount.innerHTML = headerHTML();
-    if (footerMount) footerMount.innerHTML = footerHTML();
+    var h = document.getElementById("site-header");
+    var f = document.getElementById("site-footer");
+    if (h) h.innerHTML = navHTML();
+    if (f) f.innerHTML = footerHTML();
   }
 
-  function markActiveLinks() {
-    var current = (document.body.getAttribute("data-page") || "index.html");
+  function markActive() {
+    var current = document.body.getAttribute("data-page") || "index.html";
     document.querySelectorAll("[data-nav-href]").forEach(function (a) {
       if (a.getAttribute("data-nav-href") === current) {
-        a.closest("li").classList.add("active");
+        var li = a.closest("li");
+        if (li) li.classList.add("active");
       }
     });
   }
 
-  function wireDesktopDropdowns() {
-    document.querySelectorAll(".main-nav .has-dropdown > a").forEach(function (a) {
+  function wireDropdowns() {
+    document.querySelectorAll('.main-nav > ul > li > a[href="#"]').forEach(function (a) {
       a.addEventListener("click", function (e) {
-        if (a.getAttribute("href") === "#") {
-          e.preventDefault();
-          var li = a.closest("li");
-          li.classList.toggle("dropdown-open");
-        }
+        e.preventDefault();
+        a.closest("li").classList.toggle("open");
       });
     });
   }
@@ -190,21 +171,11 @@
     var close = document.getElementById("mobileNavClose");
     var panel = document.getElementById("mobileNav");
     var scrim = document.getElementById("navScrim");
-
-    function open() {
-      panel.classList.add("open");
-      scrim.classList.add("open");
-      document.body.style.overflow = "hidden";
-    }
-    function shut() {
-      panel.classList.remove("open");
-      scrim.classList.remove("open");
-      document.body.style.overflow = "";
-    }
+    function open() { panel.classList.add("open"); scrim.classList.add("open"); document.body.style.overflow = "hidden"; }
+    function shut() { panel.classList.remove("open"); scrim.classList.remove("open"); document.body.style.overflow = ""; }
     if (toggle) toggle.addEventListener("click", open);
     if (close) close.addEventListener("click", shut);
     if (scrim) scrim.addEventListener("click", shut);
-
     document.querySelectorAll("[data-mobile-toggle]").forEach(function (a) {
       a.addEventListener("click", function (e) {
         e.preventDefault();
@@ -214,67 +185,88 @@
     });
   }
 
-  /* ---- Stat counters ---- */
-  function animateCounters() {
-    var counters = document.querySelectorAll("[data-count]");
-    if (!counters.length) return;
-    var seen = new WeakSet();
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting || seen.has(entry.target)) return;
-        seen.add(entry.target);
-        var el = entry.target;
-        var target = parseInt(el.getAttribute("data-count"), 10) || 0;
-        var suffix = el.getAttribute("data-suffix") || "";
-        var start = 0;
-        var duration = 1200;
-        var startTime = null;
-        function tick(ts) {
-          if (!startTime) startTime = ts;
-          var progress = Math.min((ts - startTime) / duration, 1);
-          var value = Math.floor(start + (target - start) * (1 - Math.pow(1 - progress, 3)));
-          el.textContent = value + suffix;
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
+  /* ---- Portfolio lightbox ---- */
+  function wireLightbox() {
+    var lightbox = document.querySelector("[data-lightbox]");
+    if (!lightbox) return;
+    var img = lightbox.querySelector("img");
+    function open(src, alt) {
+      img.src = src;
+      img.alt = alt || "";
+      lightbox.classList.add("open");
+    }
+    function close() { lightbox.classList.remove("open"); }
+    document.querySelectorAll("[data-lightbox-trigger]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        open(el.getAttribute("data-lightbox-trigger"), el.getAttribute("data-lightbox-title"));
       });
-    }, { threshold: 0.4 });
-    counters.forEach(function (c) { observer.observe(c); });
+    });
+    lightbox.addEventListener("click", close);
+    lightbox.querySelector(".lightbox-close").addEventListener("click", function (e) {
+      e.stopPropagation();
+      close();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") close();
+    });
   }
 
-  /* ---- Testimonial carousel ---- */
-  function wireTestimonials() {
-    var wrap = document.querySelector("[data-testimonials]");
+  /* ---- Google review carousel ---- */
+  function wireReviews() {
+    var wrap = document.querySelector("[data-reviews]");
     if (!wrap) return;
-    var slides = wrap.querySelectorAll(".testimonial-slide");
-    var dotsWrap = wrap.querySelector(".testimonial-dots");
-    if (!slides.length) return;
+    var track = wrap.querySelector(".review-track");
+    var reviews = JSON.parse(wrap.getAttribute("data-reviews"));
+    var perPage = 3;
     var index = 0;
+    var expanded = {};
 
-    slides.forEach(function (s, i) {
-      var dot = document.createElement("button");
-      dot.setAttribute("aria-label", "Show testimonial " + (i + 1));
-      if (i === 0) dot.classList.add("active");
-      dot.addEventListener("click", function () { show(i); });
-      dotsWrap.appendChild(dot);
-    });
-
-    function show(i) {
-      slides[index].classList.remove("active");
-      dotsWrap.children[index].classList.remove("active");
-      index = (i + slides.length) % slides.length;
-      slides[index].classList.add("active");
-      dotsWrap.children[index].classList.add("active");
+    function starSVG() {
+      return '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>';
+    }
+    function googleG() {
+      return '<svg width="15" height="15" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg>';
     }
 
-    setInterval(function () { show(index + 1); }, 6000);
+    function render() {
+      var html = "";
+      for (var i = 0; i < perPage; i++) {
+        var rev = reviews[(index + i) % reviews.length];
+        var isLong = rev.quote.length > 220;
+        var isExpanded = !!expanded[rev.name + i];
+        var display = isLong && !isExpanded ? rev.quote.slice(0, 220).trim() + "…" : rev.quote;
+        html +=
+          '<div class="review-card">' +
+            '<div class="review-quote-mark">&ldquo;</div>' +
+            '<div class="review-stars"><div class="stars">' + starSVG().repeat(5) + "</div>" + googleG() + "</div>" +
+            '<p class="review-body">' + display + "</p>" +
+            (isLong ? '<button class="review-toggle" data-toggle="' + i + '">' + (isExpanded ? "Show less" : "See full review") + "</button>" : "") +
+            '<div class="review-attrib"><div class="r-name">' + rev.name + '</div><div class="r-meta">' + rev.meta + "</div></div>" +
+          "</div>";
+      }
+      track.innerHTML = html;
+      track.querySelectorAll("[data-toggle]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var i = btn.getAttribute("data-toggle");
+          var rev = reviews[(index + Number(i)) % reviews.length];
+          var key = rev.name + i;
+          expanded[key] = !expanded[key];
+          render();
+        });
+      });
+    }
+
+    var prev = wrap.querySelector("[data-review-prev]");
+    var next = wrap.querySelector("[data-review-next]");
+    if (prev) prev.addEventListener("click", function () { index = (index - 1 + reviews.length) % reviews.length; render(); });
+    if (next) next.addEventListener("click", function () { index = (index + 1) % reviews.length; render(); });
+    render();
   }
 
   /* ---- Stubbed forms ----
      TODO(resend): replace the setTimeout stub below with a real fetch() call
-     to a Resend-backed endpoint (e.g. POST /api/contact) once that's wired
-     up server-side. Keep the client-side validation + status UI as-is. */
-  function wireStubbedForms() {
+     to a Resend-backed endpoint once that's wired up server-side. */
+  function wireForms() {
     document.querySelectorAll("[data-contact-form]").forEach(function (form) {
       var status = form.querySelector(".form-status");
       form.addEventListener("submit", function (e) {
@@ -283,45 +275,25 @@
           form.reportValidity();
           return;
         }
-        var submitBtn = form.querySelector('button[type="submit"]');
-        var originalText = submitBtn ? submitBtn.textContent : "";
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Sending...";
-        }
-        // Stubbed submission — no email is actually sent yet.
+        var submitBtn = form.querySelector('button[type="submit"], a.btn[type="submit"]');
         setTimeout(function () {
           if (status) {
             status.textContent = "Thanks — your message has been received. A member of our team will reach out shortly.";
-            status.classList.remove("error");
-            status.classList.add("success", "show");
+            status.classList.add("show", "success");
           }
           form.reset();
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-          }
-        }, 700);
-      });
-    });
-
-    document.querySelectorAll("[data-newsletter-form]").forEach(function (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var input = form.querySelector("input");
-        if (input) input.value = "Thanks for subscribing!";
-        setTimeout(function () { form.reset(); }, 2500);
+        }, 600);
       });
     });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     injectPartials();
-    markActiveLinks();
-    wireDesktopDropdowns();
+    markActive();
+    wireDropdowns();
     wireMobileNav();
-    animateCounters();
-    wireTestimonials();
-    wireStubbedForms();
+    wireLightbox();
+    wireReviews();
+    wireForms();
   });
 })();
