@@ -288,6 +288,14 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero-video .hero-copy { max-width: 600px; }
 .hero-video h1 { color: #ffffff; }
+.hero-video h1.shine {
+  background: linear-gradient(100deg, var(--color-bg) 0%, var(--color-bg) 42%, var(--color-accent-500) 50%, var(--color-bg) 58%, var(--color-bg) 100%);
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-creep 4.5s ease-in-out infinite;
+}
 .hero-video p.lead { color: var(--color-neutral-200); font-size: 1rem; line-height: 1.6; max-width: 520px; margin-bottom: var(--space-6); }
 
 .quote-card {
