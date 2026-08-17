@@ -99,7 +99,7 @@ button { font-family: inherit; cursor: pointer; }
   gap: var(--space-3);
   margin-bottom: var(--space-4);
 }
-.left .kicker { justify-content: flex-start; }
+.left .kicker, .kicker.left { justify-content: flex-start; }
 .kicker .dash { width: 32px; height: 2px; background: var(--color-accent); flex: none; }
 .kicker .label {
   color: var(--color-accent);
@@ -111,7 +111,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* Ghost watermark word behind section headings */
-.section-head { position: relative; padding-top: clamp(68px, 9vw, 112px); margin-bottom: var(--space-6); text-align: center; }
+.section-head { position: relative; padding-top: clamp(60px, 8.5vw, 92px); margin-bottom: var(--space-6); text-align: center; }
 .section-head.tight { margin-bottom: var(--space-4); }
 .section-head.left { text-align: left; }
 .section-head.left .ghost-word { left: 0; transform: none; }
@@ -122,7 +122,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: clamp(3.2rem, 8vw, 6rem);
-  line-height: 1;
+  line-height: 0.7;
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(0,0,0,0.08);
   letter-spacing: -0.02em;
@@ -132,7 +132,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .section-alt .ghost-word,
 .hero-dark .ghost-word { -webkit-text-stroke: 1.5px rgba(255,255,255,0.1); }
-.section-head > * { position: relative; z-index: 1; }
+.section-head > :not(.ghost-word) { position: relative; z-index: 1; }
 .section-head p { max-width: 680px; margin-left: auto; margin-right: auto; }
 .section-head.left p { margin-left: 0; }
 
