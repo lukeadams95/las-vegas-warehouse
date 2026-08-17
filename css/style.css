@@ -250,6 +250,7 @@ button { font-family: inherit; cursor: pointer; }
 .main-nav > ul > li.open .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
 .dropdown a { display: block; padding: var(--space-2) var(--space-3); font-size: 13px; color: var(--color-text); text-decoration: none; }
 .dropdown a:hover { background: var(--color-surface); color: var(--color-accent-dark); }
+.dropdown li.active a { color: var(--color-accent-dark); font-weight: 700; background: var(--color-surface); }
 
 .nav-toggle { display: none; background: none; border: none; padding: 8px; flex-direction: column; gap: 5px; margin-left: var(--space-4); }
 .nav-toggle span { width: 24px; height: 2px; background: var(--color-text); }
@@ -674,6 +675,7 @@ button { font-family: inherit; cursor: pointer; }
 .mobile-nav .mobile-sub { padding-left: var(--space-4); display: none; }
 .mobile-nav .mobile-sub.open { display: block; }
 .mobile-nav .mobile-sub li a { border-bottom: none; padding: var(--space-2) 4px; font-weight: 500; font-size: 0.92rem; color: var(--color-neutral-300); }
+.mobile-nav ul li.active > a { color: var(--color-accent); }
 .mobile-nav-cta { margin-top: var(--space-4); }
 .nav-scrim { position: fixed; inset: 0; background: rgba(5,14,26,0.55); opacity: 0; visibility: hidden; transition: opacity 0.25s ease; z-index: 350; }
 .nav-scrim.open { opacity: 1; visibility: visible; }

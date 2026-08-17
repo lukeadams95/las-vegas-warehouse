@@ -152,7 +152,13 @@
     document.querySelectorAll("[data-nav-href]").forEach(function (a) {
       if (a.getAttribute("data-nav-href") === current) {
         var li = a.closest("li");
-        if (li) li.classList.add("active");
+        if (!li) return;
+        li.classList.add("active");
+        var group = li.closest(".dropdown, .mobile-sub");
+        if (group) {
+          var parentLi = group.closest("li");
+          if (parentLi) parentLi.classList.add("active");
+        }
       }
     });
   }
