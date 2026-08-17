@@ -111,7 +111,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* Ghost watermark word behind section headings */
-.section-head { position: relative; padding-top: clamp(60px, 8.5vw, 92px); margin-bottom: var(--space-6); text-align: center; }
+.section-head { position: relative; padding-top: 56px; margin-bottom: var(--space-6); text-align: center; }
 .section-head.tight { margin-bottom: var(--space-4); }
 .section-head.left { text-align: left; }
 .section-head.left .ghost-word { left: 0; transform: none; }
@@ -121,8 +121,8 @@ button { font-family: inherit; cursor: pointer; }
   transform: translateX(-50%);
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: clamp(3.2rem, 8vw, 6rem);
-  line-height: 0.7;
+  font-size: 96px;
+  line-height: 1;
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(0,0,0,0.08);
   letter-spacing: -0.02em;
