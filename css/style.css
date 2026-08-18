@@ -191,12 +191,14 @@ button { font-family: inherit; cursor: pointer; }
 .utility-bar .u-sep { width: 1px; height: 12px; background: var(--color-neutral-400); }
 .utility-bar .u-contact { font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; font-size: 11px; }
 
-.site-nav {
-  background: var(--color-bg);
-  border-bottom: 2px solid var(--color-divider);
+#site-header {
   position: sticky;
   top: 0;
   z-index: 300;
+}
+.site-nav {
+  background: var(--color-bg);
+  border-bottom: 2px solid var(--color-divider);
 }
 .site-nav .container { display: flex; align-items: center; min-height: 76px; }
 .site-nav .logo-link { display: block; line-height: 0; }
@@ -219,6 +221,14 @@ button { font-family: inherit; cursor: pointer; }
 }
 .main-nav > ul > li.active > a { border-bottom-color: var(--color-accent); }
 .main-nav .plus { color: var(--color-accent); font-weight: 800; font-size: 15px; }
+.main-nav > ul > li[data-nav-item="get-started.html"] > a {
+  background: var(--color-accent);
+  color: #ffffff;
+  padding: 10px var(--space-4);
+  border-bottom-color: transparent;
+}
+.main-nav > ul > li[data-nav-item="get-started.html"] > a:hover,
+.main-nav > ul > li[data-nav-item="get-started.html"].active > a { background: #c4090a; border-bottom-color: transparent; }
 .dropdown {
   position: absolute;
   top: 100%;
@@ -663,6 +673,12 @@ button { font-family: inherit; cursor: pointer; }
 .mobile-nav .mobile-sub.open { display: block; }
 .mobile-nav .mobile-sub li a { border-bottom: none; padding: var(--space-2) 4px; font-weight: 500; font-size: 0.92rem; color: var(--color-neutral-300); }
 .mobile-nav ul li.active > a { color: var(--color-accent); }
+.mobile-nav ul > li > a[data-nav-href="get-started.html"] {
+  background: var(--color-accent);
+  color: #ffffff;
+  padding: var(--space-3) var(--space-3);
+  border-bottom-color: transparent;
+}
 .mobile-nav-cta { margin-top: var(--space-4); }
 .nav-scrim { position: fixed; inset: 0; background: rgba(5,14,26,0.55); opacity: 0; visibility: hidden; transition: opacity 0.25s ease; z-index: 350; }
 .nav-scrim.open { opacity: 1; visibility: visible; }
