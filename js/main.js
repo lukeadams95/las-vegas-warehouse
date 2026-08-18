@@ -19,7 +19,6 @@
         { label: "Small Local Moves and Storage", href: "small-local-moves-and-storage.html" }
       ]
     },
-    { label: "Get Started", href: "get-started.html" },
     {
       label: "What We Do",
       href: "#",
@@ -33,7 +32,8 @@
     { label: "Fine Art Installation / Removal", href: "fine-art-installation-removal.html" },
     { label: "Our History", href: "our-history.html" },
     { label: "Careers", href: "careers.html" },
-    { label: "Contact Us", href: "contact.html" }
+    { label: "Contact Us", href: "contact.html" },
+    { label: "Request Quote", href: "get-started.html" }
   ];
 
   function navHTML() {
