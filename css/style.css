@@ -232,7 +232,6 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ---- Compact scrolled header state ---- */
 #site-header.is-scrolled .utility-bar { display: none; }
-#site-header.is-scrolled .main-nav > ul > li[data-nav-item="fine-art-installation-removal.html"],
 #site-header.is-scrolled .main-nav > ul > li[data-nav-item="our-history.html"],
 #site-header.is-scrolled .main-nav > ul > li[data-nav-item="careers.html"],
 #site-header.is-scrolled .main-nav > ul > li[data-nav-item="contact.html"],
