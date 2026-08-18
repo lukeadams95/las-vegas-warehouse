@@ -109,6 +109,10 @@
         "</div>" +
       "</nav>" +
       '<div class="nav-scrim" id="navScrim"></div>' +
+      '<div class="mobile-sticky-cta">' +
+        '<a href="get-started.html" class="btn btn-primary">Request Quote</a>' +
+        '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary">' + PHONE + "</a>" +
+      "</div>" +
       '<aside class="mobile-nav" id="mobileNav">' +
         '<button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>' +
         '<nav aria-label="Mobile"><ul>' + mobile + "</ul></nav>" +
@@ -186,7 +190,9 @@
     if (!header) return;
     var ticking = false;
     function update() {
-      header.classList.toggle("is-scrolled", window.scrollY > 40);
+      var scrolled = window.scrollY > 40;
+      header.classList.toggle("is-scrolled", scrolled);
+      document.body.classList.toggle("is-scrolled", scrolled);
       ticking = false;
     }
     window.addEventListener("scroll", function () {

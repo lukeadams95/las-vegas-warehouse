@@ -648,6 +648,8 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 900px) {
   .main-nav { display: none; }
   .scroll-cta { display: none !important; }
+  #site-header.is-scrolled .mobile-sticky-cta { display: flex; }
+  body.is-scrolled { padding-bottom: 54px; }
   .nav-toggle { display: flex; margin-left: auto; }
   .split, .split.reverse { grid-template-columns: 1fr; }
   .split .split-media { order: -1; }
@@ -699,3 +701,10 @@ button { font-family: inherit; cursor: pointer; }
 .mobile-nav-cta { margin-top: var(--space-4); }
 .nav-scrim { position: fixed; inset: 0; background: rgba(5,14,26,0.55); opacity: 0; visibility: hidden; transition: opacity 0.25s ease; z-index: 350; }
 .nav-scrim.open { opacity: 1; visibility: visible; }
+.mobile-sticky-cta {
+  display: none;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 340;
+  gap: 2px;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.2);
+}
+.mobile-sticky-cta .btn { flex: 1; justify-content: center; border-radius: 0; }
