@@ -221,6 +221,76 @@
     });
   }
 
+  /* ---- Draggable, auto-scrolling client logo marquee ---- */
+  function wireLogoMarquee() {
+    var wrap = document.querySelector("[data-logo-marquee]");
+    if (!wrap) return;
+    var track = wrap.querySelector(".logo-marquee-track");
+    var pos = 0;
+    var setWidth = 0;
+    var paused = false;
+    var dragging = false;
+    var pointerId = null;
+    var startX = 0;
+    var startPos = 0;
+    var resumeTimer = null;
+
+    function measure() {
+      setWidth = track.scrollWidth / 2;
+    }
+    function apply() {
+      track.style.transform = "translateX(" + pos + "px)";
+    }
+    function tick() {
+      if (!paused && !dragging && setWidth) {
+        pos -= 0.6;
+        if (pos <= -setWidth) pos += setWidth;
+        apply();
+      }
+      requestAnimationFrame(tick);
+    }
+
+    measure();
+    window.addEventListener("resize", measure);
+    requestAnimationFrame(tick);
+
+    wrap.addEventListener("mouseenter", function () { paused = true; });
+    wrap.addEventListener("mouseleave", function () { paused = false; });
+
+    function resumeSoon() {
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function () { paused = false; }, 800);
+    }
+
+    function onDown(e) {
+      dragging = true;
+      paused = true;
+      pointerId = e.pointerId;
+      wrap.classList.add("dragging");
+      wrap.setPointerCapture(pointerId);
+      startX = e.clientX;
+      startPos = pos;
+    }
+    function onMove(e) {
+      if (!dragging || e.pointerId !== pointerId || !setWidth) return;
+      pos = startPos + (e.clientX - startX);
+      if (pos > 0) pos -= setWidth;
+      if (pos <= -setWidth) pos += setWidth;
+      apply();
+    }
+    function onUp(e) {
+      if (!dragging || e.pointerId !== pointerId) return;
+      dragging = false;
+      wrap.classList.remove("dragging");
+      resumeSoon();
+    }
+
+    wrap.addEventListener("pointerdown", onDown);
+    wrap.addEventListener("pointermove", onMove);
+    wrap.addEventListener("pointerup", onUp);
+    wrap.addEventListener("pointercancel", onUp);
+  }
+
   /* ---- Google review carousel ---- */
   function wireReviews() {
     var wrap = document.querySelector("[data-reviews]");
@@ -303,6 +373,7 @@
     wireDropdowns();
     wireMobileNav();
     wireLightbox();
+    wireLogoMarquee();
     wireReviews();
     wireForms();
   });
