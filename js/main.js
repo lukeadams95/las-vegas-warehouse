@@ -76,19 +76,23 @@
 
     return (
       '<div class="utility-bar">' +
-        '<div class="u-addr">4640 Polaris Ave. Las Vegas, NV 89103</div>' +
-        '<div class="u-right">' +
-          '<a class="u-call" href="tel:' + PHONE_DIGITS + '">Call Us : ' + PHONE + "</a>" +
-          '<div class="u-sep"></div>' +
-          '<a class="u-contact" href="contact.html">Contact Us</a>' +
+        '<div class="container">' +
+          '<div class="u-addr">4640 Polaris Ave. Las Vegas, NV 89103</div>' +
+          '<div class="u-right">' +
+            '<a class="u-call" href="tel:' + PHONE_DIGITS + '">Call Us : ' + PHONE + "</a>" +
+            '<div class="u-sep"></div>' +
+            '<a class="u-contact" href="contact.html">Contact Us</a>' +
+          "</div>" +
         "</div>" +
       "</div>" +
       '<nav class="site-nav">' +
-        '<a href="index.html" class="logo-link"><img src="assets/lvw-logo.webp" alt="Las Vegas Warehouse"></a>' +
-        '<div class="main-nav" aria-label="Primary">' +
-          "<ul>" + desktop + "</ul>" +
+        '<div class="container">' +
+          '<a href="index.html" class="logo-link"><img src="assets/lvw-logo.webp" alt="Las Vegas Warehouse"></a>' +
+          '<div class="main-nav" aria-label="Primary">' +
+            "<ul>" + desktop + "</ul>" +
+          "</div>" +
+          '<button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>' +
         "</div>" +
-        '<button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>' +
       "</nav>" +
       '<div class="nav-scrim" id="navScrim"></div>' +
       '<aside class="mobile-nav" id="mobileNav">' +
