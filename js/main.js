@@ -129,9 +129,9 @@
             '<img class="footer-logo" src="assets/lvw-logo-white.webp" alt="Las Vegas Warehouse">' +
             '<p class="f-blurb">Full-service warehouse storage, packing, and 3PL fulfillment out of Las Vegas, NV.</p>' +
             '<div class="footer-social">' +
-              '<a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>' +
-              '<a href="https://x.com/lasvwarehouse" target="_blank" rel="noopener noreferrer" aria-label="X"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l16 16M20 4L4 20"></path></svg></a>' +
-              '<a href="https://www.linkedin.com/company/101277738" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle><path d="M10 9v12M10 13a4 4 0 0 1 8 0v8"></path></svg></a>' +
+              '<a href="#" aria-label="Facebook"><img src="images/social-facebook.webp" alt="" width="18" height="18"></a>' +
+              '<a href="https://x.com/lasvwarehouse" target="_blank" rel="noopener noreferrer" aria-label="X"><img src="images/social-x.webp" alt="" width="18" height="18"></a>' +
+              '<a href="https://www.linkedin.com/company/101277738" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="images/social-linkedin.webp" alt="" width="18" height="18"></a>' +
             "</div>" +
           "</div>" +
           "<div>" +
