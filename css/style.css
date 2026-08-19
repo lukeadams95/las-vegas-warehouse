@@ -658,6 +658,7 @@ button { font-family: inherit; cursor: pointer; }
   .nav-toggle { display: flex; margin-left: auto; }
   .split, .split.reverse { grid-template-columns: 1fr; }
   .split .split-media { order: -1; }
+  .hero-video { height: auto; min-height: 0; overflow: visible; }
   .hero-video .hero-row { flex-direction: column; align-items: stretch; padding-top: var(--space-6); padding-bottom: var(--space-6); }
   .quote-card { width: 100%; }
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
