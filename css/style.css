@@ -529,6 +529,7 @@ button { font-family: inherit; cursor: pointer; }
 .review-attrib .r-meta { font-size: 12px; color: rgba(255,255,255,0.85); margin-top: 2px; }
 
 /* ---- Locations ---- */
+.location-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: var(--space-8); align-items: start; }
 .location-panel { background: var(--charcoal); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); height: 100%; }
 .location-block { display: flex; flex-direction: column; align-items: center; text-align: center; background: rgba(255,255,255,0.05); padding: var(--space-5); }
 .location-block.grow { flex: 1; justify-content: center; }
@@ -650,6 +651,13 @@ button { font-family: inherit; cursor: pointer; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .portfolio-item { width: calc(33.333% - var(--space-4) * 2 / 3); }
 }
+@media (max-width: 480px) {
+  .utility-bar { display: none; }
+  .reviews-wrap { gap: var(--space-2); }
+  .review-nav { width: 32px; height: 32px; }
+  .review-track { flex: 1 1 auto; min-width: 0; }
+  .review-card { width: 100%; max-width: 340px; min-width: 0; padding: 0 4px; }
+}
 @media (max-width: 900px) {
   .main-nav { display: none; }
   .scroll-cta { display: none !important; }
@@ -658,6 +666,7 @@ button { font-family: inherit; cursor: pointer; }
   .nav-toggle { display: flex; margin-left: auto; }
   .split, .split.reverse { grid-template-columns: 1fr; }
   .split .split-media { order: -1; }
+  .location-grid { grid-template-columns: 1fr; }
   .hero-video { height: auto; min-height: 0; overflow: visible; }
   .hero-video .hero-row { flex-direction: column; align-items: stretch; padding-top: var(--space-6); padding-bottom: var(--space-6); }
   .quote-card { width: 100%; }

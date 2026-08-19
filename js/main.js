@@ -334,9 +334,13 @@
     if (!wrap) return;
     var track = wrap.querySelector(".review-track");
     var reviews = JSON.parse(wrap.getAttribute("data-reviews"));
-    var perPage = 3;
+    var mobileQuery = window.matchMedia("(max-width: 640px)");
     var index = 0;
     var expanded = {};
+
+    function getPerPage() {
+      return mobileQuery.matches ? 1 : 3;
+    }
 
     function starSVG() {
       return '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>';
@@ -347,6 +351,7 @@
 
     function render() {
       var html = "";
+      var perPage = getPerPage();
       for (var i = 0; i < perPage; i++) {
         var rev = reviews[(index + i) % reviews.length];
         var isLong = rev.quote.length > 220;
@@ -377,6 +382,7 @@
     var next = wrap.querySelector("[data-review-next]");
     if (prev) prev.addEventListener("click", function () { index = (index - 1 + reviews.length) % reviews.length; render(); });
     if (next) next.addEventListener("click", function () { index = (index + 1) % reviews.length; render(); });
+    mobileQuery.addEventListener("change", render);
     render();
   }
 
