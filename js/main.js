@@ -258,118 +258,87 @@
     });
   }
 
-  /* ---- Sliding photo carousel ---- */
-  function wirePhotoCarousel() {
-    document.querySelectorAll("[data-photo-carousel]").forEach(function (car) {
-      var track = car.querySelector(".carousel-track");
-      var slides = Array.prototype.slice.call(car.querySelectorAll(".carousel-slide"));
-      var dotsWrap = car.querySelector(".carousel-dots");
-      var prev = car.querySelector("[data-carousel-prev]");
-      var next = car.querySelector("[data-carousel-next]");
-      if (!track || !slides.length) return;
-      var index = 0;
-      var timer;
-
-      slides.forEach(function (_, i) {
-        var dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "carousel-dot";
-        dot.setAttribute("aria-label", "Go to photo " + (i + 1));
-        dot.addEventListener("click", function () { goTo(i); });
-        if (dotsWrap) dotsWrap.appendChild(dot);
-      });
-      var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.children) : [];
-
-      function update() {
-        track.style.transform = "translateX(-" + index * 100 + "%)";
-        dots.forEach(function (d, i) { d.classList.toggle("active", i === index); });
-      }
-      function goTo(i) {
-        index = (i + slides.length) % slides.length;
-        update();
-        restart();
-      }
-      function restart() {
-        clearInterval(timer);
-        timer = setInterval(function () { goTo(index + 1); }, 5000);
-      }
-      if (prev) prev.addEventListener("click", function () { goTo(index - 1); });
-      if (next) next.addEventListener("click", function () { goTo(index + 1); });
-      car.addEventListener("mouseenter", function () { clearInterval(timer); });
-      car.addEventListener("mouseleave", restart);
-      update();
-      restart();
-    });
-  }
-
   /* ---- Draggable, auto-scrolling client logo marquee ---- */
   function wireLogoMarquee() {
-    var wrap = document.querySelector("[data-logo-marquee]");
-    if (!wrap) return;
-    var track = wrap.querySelector(".logo-marquee-track");
-    var pos = 0;
-    var setWidth = 0;
-    var paused = false;
-    var dragging = false;
-    var pointerId = null;
-    var startX = 0;
-    var startPos = 0;
-    var resumeTimer = null;
+    document.querySelectorAll("[data-logo-marquee]").forEach(function (wrap) {
+      var track = wrap.querySelector(".logo-marquee-track");
+      if (!track) return;
+      var pos = 0;
+      var setWidth = 0;
+      var paused = false;
+      var dragging = false;
+      var pointerId = null;
+      var startX = 0;
+      var startPos = 0;
+      var moved = 0;
+      var resumeTimer = null;
 
-    function measure() {
-      setWidth = track.scrollWidth / 2;
-    }
-    function apply() {
-      track.style.transform = "translateX(" + pos + "px)";
-    }
-    function tick() {
-      if (!paused && !dragging && setWidth) {
-        pos -= 0.6;
+      function measure() {
+        setWidth = track.scrollWidth / 2;
+      }
+      function apply() {
+        track.style.transform = "translateX(" + pos + "px)";
+      }
+      function tick() {
+        if (!paused && !dragging && setWidth) {
+          pos -= 0.6;
+          if (pos <= -setWidth) pos += setWidth;
+          apply();
+        }
+        requestAnimationFrame(tick);
+      }
+
+      measure();
+      window.addEventListener("resize", measure);
+      requestAnimationFrame(tick);
+
+      wrap.addEventListener("mouseenter", function () { paused = true; });
+      wrap.addEventListener("mouseleave", function () { paused = false; });
+
+      function resumeSoon() {
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(function () { paused = false; }, 800);
+      }
+
+      function onDown(e) {
+        dragging = true;
+        paused = true;
+        pointerId = e.pointerId;
+        moved = 0;
+        wrap.classList.add("dragging");
+        wrap.setPointerCapture(pointerId);
+        startX = e.clientX;
+        startPos = pos;
+      }
+      function onMove(e) {
+        if (!dragging || e.pointerId !== pointerId || !setWidth) return;
+        moved = Math.abs(e.clientX - startX);
+        pos = startPos + (e.clientX - startX);
+        if (pos > 0) pos -= setWidth;
         if (pos <= -setWidth) pos += setWidth;
         apply();
       }
-      requestAnimationFrame(tick);
-    }
+      function onUp(e) {
+        if (!dragging || e.pointerId !== pointerId) return;
+        dragging = false;
+        wrap.classList.remove("dragging");
+        resumeSoon();
+      }
+      // Swallow the click that follows a real drag so clickable slides
+      // (e.g. photo marquees wired to the lightbox) don't open on release.
+      wrap.addEventListener("click", function (e) {
+        if (moved > 6) {
+          e.preventDefault();
+          e.stopPropagation();
+          moved = 0;
+        }
+      }, true);
 
-    measure();
-    window.addEventListener("resize", measure);
-    requestAnimationFrame(tick);
-
-    wrap.addEventListener("mouseenter", function () { paused = true; });
-    wrap.addEventListener("mouseleave", function () { paused = false; });
-
-    function resumeSoon() {
-      clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(function () { paused = false; }, 800);
-    }
-
-    function onDown(e) {
-      dragging = true;
-      paused = true;
-      pointerId = e.pointerId;
-      wrap.classList.add("dragging");
-      wrap.setPointerCapture(pointerId);
-      startX = e.clientX;
-      startPos = pos;
-    }
-    function onMove(e) {
-      if (!dragging || e.pointerId !== pointerId || !setWidth) return;
-      pos = startPos + (e.clientX - startX);
-      if (pos > 0) pos -= setWidth;
-      if (pos <= -setWidth) pos += setWidth;
-      apply();
-    }
-    function onUp(e) {
-      if (!dragging || e.pointerId !== pointerId) return;
-      dragging = false;
-      wrap.classList.remove("dragging");
-      resumeSoon();
-    }
-
-    wrap.addEventListener("pointerdown", onDown);
-    wrap.addEventListener("pointermove", onMove);
-    wrap.addEventListener("pointerup", onUp);
-    wrap.addEventListener("pointercancel", onUp);
+      wrap.addEventListener("pointerdown", onDown);
+      wrap.addEventListener("pointermove", onMove);
+      wrap.addEventListener("pointerup", onUp);
+      wrap.addEventListener("pointercancel", onUp);
+    });
   }
 
   /* ---- Google review carousel ---- */
@@ -461,7 +430,6 @@
     wireDropdowns();
     wireMobileNav();
     wireLightbox();
-    wirePhotoCarousel();
     wireLogoMarquee();
     wireReviews();
     wireForms();
