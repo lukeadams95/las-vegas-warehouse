@@ -529,6 +529,43 @@ button { font-family: inherit; cursor: pointer; }
   background: none; border: none;
 }
 
+/* ---- Sliding photo carousel (click a slide for the lightbox) ---- */
+.photo-carousel-row { display: flex; align-items: center; gap: var(--space-4); }
+.carousel-nav {
+  flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--color-neutral-300);
+  background: transparent; color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.carousel-nav:hover { background: var(--color-accent); border-color: var(--color-accent); color: #ffffff; }
+.carousel-viewport {
+  flex: 1; min-width: 0; overflow: hidden; border-radius: var(--radius-media); box-shadow: var(--shadow-media);
+}
+.carousel-track { display: flex; transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1); }
+.carousel-slide {
+  flex: 0 0 100%; min-width: 0; position: relative; aspect-ratio: 16/9;
+  border: 0; padding: 0; margin: 0; display: block; cursor: pointer; background: var(--color-neutral-900);
+}
+.carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.carousel-slide .cs-caption {
+  position: absolute; inset: auto 0 0 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.72), transparent);
+  color: #ffffff; padding: var(--space-6) var(--space-4) var(--space-3);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-3); text-align: left;
+}
+.carousel-slide .cs-title { font-family: var(--font-heading); font-weight: 700; font-size: 15px; }
+.carousel-slide .cs-view {
+  flex: none; font-family: var(--font-label); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.6); border-radius: 999px; padding: 6px 12px; white-space: nowrap;
+}
+.carousel-dots { display: flex; justify-content: center; align-items: center; gap: var(--space-2); margin-top: var(--space-5); }
+.carousel-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: var(--color-neutral-300); cursor: pointer; transition: width 0.2s ease, background 0.2s ease; }
+.carousel-dot.active { background: var(--color-accent); width: 22px; border-radius: 4px; }
+@media (max-width: 480px) {
+  .photo-carousel-row { gap: var(--space-2); }
+  .carousel-nav { width: 32px; height: 32px; }
+  .carousel-slide .cs-caption { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .carousel-slide .cs-title { font-size: 13px; }
+}
+
 /* ---- Client logo grid ---- */
 .logo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
 .logo-grid figure { display: flex; align-items: center; justify-content: center; height: 110px; padding: var(--space-4); }
