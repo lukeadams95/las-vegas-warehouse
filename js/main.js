@@ -399,9 +399,52 @@
     render();
   }
 
-  /* ---- Stubbed forms ----
-     TODO(resend): replace the setTimeout stub below with a real fetch() call
-     to a Resend-backed endpoint once that's wired up server-side. */
+  /* ---- Forms ----
+     On submit, any existing lead webhook (e.g. GoHighLevel) keeps firing as
+     before. Alongside it — never instead of it — we also POST the form data
+     to the send-lead-notification function so the team gets an email alert.
+     Both calls run in parallel and are fire-and-forget: a failure on either
+     one is logged only and never blocks the on-screen success state. */
+  var LEAD_NOTIFICATION_ENDPOINT = "/api/send-lead-notification";
+
+  function serializeForm(form) {
+    var data = {};
+    new FormData(form).forEach(function (value, key) {
+      if (typeof value === "string" && value.trim() !== "") {
+        data[key] = value;
+      }
+    });
+    return data;
+  }
+
+  function sendLeadNotification(data) {
+    fetch(LEAD_NOTIFICATION_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then(function (res) {
+        if (!res.ok) {
+          console.error("Lead notification email failed with status " + res.status);
+        }
+      })
+      .catch(function (err) {
+        console.error("Lead notification email failed:", err);
+      });
+  }
+
+  function fireExistingWebhook(form, data) {
+    var webhookUrl = form.getAttribute("data-webhook-url");
+    if (!webhookUrl) return;
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).catch(function (err) {
+      console.error("Lead webhook failed:", err);
+    });
+  }
+
   function wireForms() {
     document.querySelectorAll("[data-contact-form]").forEach(function (form) {
       var status = form.querySelector(".form-status");
@@ -412,6 +455,12 @@
           return;
         }
         var submitBtn = form.querySelector('button[type="submit"], a.btn[type="submit"]');
+        var formData = serializeForm(form);
+
+        // Fire in parallel; neither call blocks the other or the UI below.
+        fireExistingWebhook(form, formData);
+        sendLeadNotification(formData);
+
         setTimeout(function () {
           if (status) {
             status.textContent = "Thanks — your message has been received. A member of our team will reach out shortly.";
