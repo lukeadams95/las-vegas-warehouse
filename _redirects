@@ -13,3 +13,6 @@
 /antiques-auctions/                /antiques-and-auctions.html            301
 /our-history/                      /our-history.html                      301
 /privacy-policy/                   /privacy-policy.html                   301
+
+# Clean-URL alias for the post-submission thank-you page
+/thank-you                         /thank-you.html                        301

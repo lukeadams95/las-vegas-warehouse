@@ -404,8 +404,10 @@
      before. Alongside it — never instead of it — we also POST the form data
      to the send-lead-notification function so the team gets an email alert.
      Both calls run in parallel and are fire-and-forget: a failure on either
-     one is logged only and never blocks the on-screen success state. */
+     one is logged only and never blocks navigation. keepalive lets them
+     finish even though we navigate to /thank-you.html right after firing. */
   var LEAD_NOTIFICATION_ENDPOINT = "/api/send-lead-notification";
+  var THANK_YOU_PATH = "/thank-you.html";
 
   function serializeForm(form) {
     var data = {};
@@ -422,6 +424,7 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      keepalive: true,
     })
       .then(function (res) {
         if (!res.ok) {
@@ -440,6 +443,7 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      keepalive: true,
     }).catch(function (err) {
       console.error("Lead webhook failed:", err);
     });
@@ -447,27 +451,19 @@
 
   function wireForms() {
     document.querySelectorAll("[data-contact-form]").forEach(function (form) {
-      var status = form.querySelector(".form-status");
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         if (!form.checkValidity()) {
           form.reportValidity();
           return;
         }
-        var submitBtn = form.querySelector('button[type="submit"], a.btn[type="submit"]');
         var formData = serializeForm(form);
 
-        // Fire in parallel; neither call blocks the other or the UI below.
+        // Fire in parallel; neither call blocks the other or the redirect below.
         fireExistingWebhook(form, formData);
         sendLeadNotification(formData);
 
-        setTimeout(function () {
-          if (status) {
-            status.textContent = "Thanks — your message has been received. A member of our team will reach out shortly.";
-            status.classList.add("show", "success");
-          }
-          form.reset();
-        }, 600);
+        window.location.href = THANK_YOU_PATH;
       });
     });
   }
