@@ -1,0 +1,15 @@
+# Legacy WordPress URLs -> current .html pages
+# Preserves Search Console ranking signal for indexed top pages after the
+# static-site migration. See Search Console "Top pages" for traffic data.
+/warehouse-services/               /warehouse-services.html               301
+/cross-docking/                    /cross-docking.html                    301
+/contact-us/                       /contact.html                          301
+/fine-art-installation-and-removal/ /fine-art-installation-removal.html   301
+/safe-secure-art-storage/          /safe-secure-art-storage.html          301
+/get-started/                      /get-started.html                      301
+/careers/                          /careers.html                          301
+/small-local-moves-and-storage/    /small-local-moves-and-storage.html    301
+/convention-storage/               /convention-storage.html               301
+/antiques-auctions/                /antiques-and-auctions.html            301
+/our-history/                      /our-history.html                      301
+/privacy-policy/                   /privacy-policy.html                   301
