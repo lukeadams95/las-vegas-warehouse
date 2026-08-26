@@ -1,18 +1,22 @@
-# Legacy WordPress URLs -> current .html pages
+# Legacy WordPress URLs -> current pages
 # Preserves Search Console ranking signal for indexed top pages after the
 # static-site migration. See Search Console "Top pages" for traffic data.
-/warehouse-services/               /warehouse-services.html               301
-/cross-docking/                    /cross-docking.html                    301
-/contact-us/                       /contact.html                          301
-/fine-art-installation-and-removal/ /fine-art-installation-removal.html   301
-/safe-secure-art-storage/          /safe-secure-art-storage.html          301
-/get-started/                      /get-started.html                      301
-/careers/                          /careers.html                          301
-/small-local-moves-and-storage/    /small-local-moves-and-storage.html    301
-/convention-storage/               /convention-storage.html               301
-/antiques-auctions/                /antiques-and-auctions.html            301
-/our-history/                      /our-history.html                      301
-/privacy-policy/                   /privacy-policy.html                   301
-
-# Clean-URL alias for the post-submission thank-you page
-/thank-you                         /thank-you.html                        301
+#
+# Targets are the extensionless form (e.g. /warehouse-services, not
+# /warehouse-services.html) because Cloudflare Pages itself 308-redirects
+# every *.html request to its extensionless equivalent. Redirecting straight
+# to that final destination avoids a redundant second hop through the .html
+# URL; it's also the URL declared canonical in each page's <head> and in
+# sitemap.xml, so this keeps redirects, canonicals, and the sitemap aligned.
+/warehouse-services/               /warehouse-services               301
+/cross-docking/                    /cross-docking                    301
+/contact-us/                       /contact                          301
+/fine-art-installation-and-removal/ /fine-art-installation-removal   301
+/safe-secure-art-storage/          /safe-secure-art-storage          301
+/get-started/                      /get-started                      301
+/careers/                          /careers                          301
+/small-local-moves-and-storage/    /small-local-moves-and-storage    301
+/convention-storage/               /convention-storage                301
+/antiques-auctions/                /antiques-and-auctions            301
+/our-history/                      /our-history                      301
+/privacy-policy/                   /privacy-policy                   301

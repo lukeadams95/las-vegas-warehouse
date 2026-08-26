@@ -48,7 +48,8 @@
         : "";
       return (
         '<li data-nav-item="' + item.href + '">' +
-        '<a href="' + item.href + '" data-nav-href="' + item.href + '">' + item.label +
+        '<a href="' + item.href + '" data-nav-href="' + item.href + '"' +
+        (hasKids ? ' aria-haspopup="true" aria-expanded="false"' : "") + ">" + item.label +
         (hasKids ? '<span class="plus">+</span>' : "") +
         "</a>" + sub +
         "</li>"
@@ -67,7 +68,7 @@
       return (
         "<li>" +
         '<a href="' + item.href + '" data-nav-href="' + item.href + '"' +
-        (hasKids ? ' data-mobile-toggle="mobile-sub-' + i + '"' : "") + ">" +
+        (hasKids ? ' data-mobile-toggle="mobile-sub-' + i + '" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-sub-' + i + '"' : "") + ">" +
         item.label + (hasKids ? '<span class="plus">+</span>' : "") +
         "</a>" + sub +
         "</li>"
@@ -105,7 +106,7 @@
             '<a href="get-started.html" class="btn btn-primary btn-sm">Request Quote</a>' +
             '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary btn-sm">' + PHONE + "</a>" +
           "</div>" +
-          '<button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>' +
+          '<button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>' +
         "</div>" +
       "</nav>" +
       '<div class="nav-scrim" id="navScrim"></div>' +
@@ -126,30 +127,30 @@
       '<div class="container">' +
         '<div class="footer-grid">' +
           "<div>" +
-            '<img class="footer-logo" src="assets/lvw-logo-white.webp" alt="Las Vegas Warehouse">' +
+            '<img class="footer-logo" src="assets/lvw-logo-white.webp" alt="Las Vegas Warehouse" loading="lazy">' +
             '<p class="f-blurb">Full-service warehouse storage, packing, and 3PL fulfillment out of Las Vegas, NV.</p>' +
             '<div class="footer-social">' +
-              '<a href="#" aria-label="Facebook"><img src="images/social-facebook.webp" alt="" width="18" height="18"></a>' +
-              '<a href="https://x.com/lasvwarehouse" target="_blank" rel="noopener noreferrer" aria-label="X"><img src="images/social-x.webp" alt="" width="18" height="18"></a>' +
-              '<a href="https://www.linkedin.com/company/101277738" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="images/social-linkedin.webp" alt="" width="18" height="18"></a>' +
+              '<a href="#" aria-label="Facebook"><img src="images/social-facebook.webp" alt="" width="18" height="18" loading="lazy"></a>' +
+              '<a href="https://x.com/lasvwarehouse" target="_blank" rel="noopener noreferrer" aria-label="X"><img src="images/social-x.webp" alt="" width="18" height="18" loading="lazy"></a>' +
+              '<a href="https://www.linkedin.com/company/101277738" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="images/social-linkedin.webp" alt="" width="18" height="18" loading="lazy"></a>' +
             "</div>" +
           "</div>" +
           "<div>" +
             "<h4>Explore</h4>" +
-            '<div class="footer-links">' +
+            '<nav class="footer-links" aria-label="Explore">' +
               '<a href="our-history.html">Our History</a>' +
               '<a href="warehouse-services.html">What We Do</a>' +
               '<a href="get-started.html">Get Started</a>' +
               '<a href="careers.html">Careers</a>' +
-            "</div>" +
+            "</nav>" +
           "</div>" +
           "<div>" +
             "<h4>Support</h4>" +
-            '<div class="footer-links">' +
+            '<nav class="footer-links" aria-label="Support">' +
               '<a href="contact.html">Contact Us</a>' +
               '<a href="mailto:Contact@LasVegasWarehouse.com">Contact@LasVegasWarehouse.com</a>' +
               '<a href="privacy-policy.html">Privacy Policy</a>' +
-            "</div>" +
+            "</nav>" +
           "</div>" +
           "<div>" +
             "<h4>Address</h4>" +
@@ -208,7 +209,8 @@
     document.querySelectorAll('.main-nav > ul > li > a[href="#"]').forEach(function (a) {
       a.addEventListener("click", function (e) {
         e.preventDefault();
-        a.closest("li").classList.toggle("open");
+        var open = a.closest("li").classList.toggle("open");
+        a.setAttribute("aria-expanded", open ? "true" : "false");
       });
     });
   }
@@ -218,8 +220,14 @@
     var close = document.getElementById("mobileNavClose");
     var panel = document.getElementById("mobileNav");
     var scrim = document.getElementById("navScrim");
-    function open() { panel.classList.add("open"); scrim.classList.add("open"); document.body.style.overflow = "hidden"; }
-    function shut() { panel.classList.remove("open"); scrim.classList.remove("open"); document.body.style.overflow = ""; }
+    function open() {
+      panel.classList.add("open"); scrim.classList.add("open"); document.body.style.overflow = "hidden";
+      if (toggle) toggle.setAttribute("aria-expanded", "true");
+    }
+    function shut() {
+      panel.classList.remove("open"); scrim.classList.remove("open"); document.body.style.overflow = "";
+      if (toggle) toggle.setAttribute("aria-expanded", "false");
+    }
     if (toggle) toggle.addEventListener("click", open);
     if (close) close.addEventListener("click", shut);
     if (scrim) scrim.addEventListener("click", shut);
@@ -227,7 +235,10 @@
       a.addEventListener("click", function (e) {
         e.preventDefault();
         var sub = document.getElementById(a.getAttribute("data-mobile-toggle"));
-        if (sub) sub.classList.toggle("open");
+        if (sub) {
+          var isOpen = sub.classList.toggle("open");
+          a.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        }
       });
     });
   }
@@ -407,7 +418,9 @@
      one is logged only and never blocks navigation. keepalive lets them
      finish even though we navigate to /thank-you.html right after firing. */
   var LEAD_NOTIFICATION_ENDPOINT = "/api/send-lead-notification";
-  var THANK_YOU_PATH = "/thank-you.html";
+  // Extensionless: Cloudflare Pages 308-redirects /thank-you.html here anyway,
+  // so navigating straight to the final URL skips a redundant redirect hop.
+  var THANK_YOU_PATH = "/thank-you";
 
   function serializeForm(form) {
     var data = {};
