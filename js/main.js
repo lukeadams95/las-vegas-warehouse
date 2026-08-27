@@ -422,8 +422,73 @@
   // so navigating straight to the final URL skips a redundant redirect hop.
   var THANK_YOU_PATH = "/thank-you";
 
+  /* ---- Lead source attribution ----
+     Captured once per browser session (first-touch: an ad click that lands,
+     then browses a few more pages before submitting, should still be
+     attributed to that first click, not whatever page the form is on).
+     Google Ads and tagged campaigns (utm_source/utm_medium) are unambiguous.
+     A bare Google referrer is NOT: Google Business Profile "Website" button
+     clicks and organic search results both show referrer=google.com with no
+     way to tell them apart client-side. To get a clean GBP bucket, tag the
+     GBP listing's website link with e.g. ?utm_source=gbp&utm_medium=organic. */
+  var ATTRIBUTION_STORAGE_KEY = "lvw_attribution";
+
+  function classifySource(params, referrer) {
+    var gclid = params.get("gclid");
+    var utmSource = params.get("utm_source");
+    var utmMedium = params.get("utm_medium");
+    var utmCampaign = params.get("utm_campaign") || "";
+
+    if (gclid || (utmSource && /google/i.test(utmSource) && utmMedium && /cpc|ppc|paid/i.test(utmMedium))) {
+      return { source: "Google Ads", campaign: utmCampaign };
+    }
+    if (utmSource) {
+      var KNOWN_ACRONYMS = { gbp: "GBP", seo: "SEO", ppc: "PPC" };
+      var label = KNOWN_ACRONYMS[utmSource.toLowerCase()] || (utmSource.charAt(0).toUpperCase() + utmSource.slice(1));
+      if (utmMedium) label += " (" + utmMedium + ")";
+      return { source: label, campaign: utmCampaign };
+    }
+    if (!referrer) {
+      return { source: "Direct", campaign: "" };
+    }
+    var host;
+    try {
+      host = new URL(referrer).hostname.replace(/^www\./, "");
+    } catch (e) {
+      host = referrer;
+    }
+    if (host === window.location.hostname) {
+      return { source: "Direct", campaign: "" };
+    }
+    if (/^google\./i.test(host)) {
+      return { source: "Google (Organic or GBP)", campaign: "" };
+    }
+    if (/^(bing|yahoo|duckduckgo)\./i.test(host)) {
+      return { source: "Organic Search (" + host + ")", campaign: "" };
+    }
+    return { source: "Referral (" + host + ")", campaign: "" };
+  }
+
+  function getAttribution() {
+    try {
+      var stored = sessionStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+
+    var result = classifySource(new URLSearchParams(window.location.search), document.referrer);
+
+    try {
+      sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(result));
+    } catch (e) {}
+
+    return result;
+  }
+
   function serializeForm(form) {
     var data = {};
+    var attribution = getAttribution();
+    if (attribution.source) data.source = attribution.source;
+    if (attribution.campaign) data.campaign = attribution.campaign;
     new FormData(form).forEach(function (value, key) {
       if (typeof value === "string" && value.trim() !== "") {
         data[key] = value;
@@ -491,5 +556,10 @@
     wireLogoMarquee();
     wireReviews();
     wireForms();
+    // Capture attribution on every pageview, not lazily on submit — the
+    // UTM params / referrer that identify the source are only present on
+    // the page someone actually landed on, which may not be the page they
+    // eventually fill out the form on.
+    getAttribution();
   });
 })();
