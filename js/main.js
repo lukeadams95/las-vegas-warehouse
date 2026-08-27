@@ -9,6 +9,9 @@
 
   var PHONE = "1-800-806-4119";
   var PHONE_DIGITS = "18008064119";
+  // Google Ads click-to-call conversion tracking (gtag_report_conversion is
+  // defined per-page in <head>, right after the Google tag).
+  var CALL_ONCLICK = ' onclick="return gtag_report_conversion(\'tel:' + PHONE_DIGITS + '\');"';
 
   var NAV = [
     { label: "Home", href: "index.html" },
@@ -80,7 +83,7 @@
         '<div class="container">' +
           '<div class="u-addr">4640 Polaris Ave. Las Vegas, NV 89103</div>' +
           '<div class="u-right">' +
-            '<a class="u-call" href="tel:' + PHONE_DIGITS + '">Call Us : ' + PHONE + "</a>" +
+            '<a class="u-call" href="tel:' + PHONE_DIGITS + '"' + CALL_ONCLICK + ">Call Us : " + PHONE + "</a>" +
             '<div class="u-sep"></div>' +
             '<a class="u-contact" href="contact.html">Contact Us</a>' +
           "</div>" +
@@ -104,7 +107,7 @@
               "</span>" +
             "</div>" +
             '<a href="get-started.html" class="btn btn-primary btn-sm">Request Quote</a>' +
-            '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary btn-sm">' + PHONE + "</a>" +
+            '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary btn-sm"' + CALL_ONCLICK + ">" + PHONE + "</a>" +
           "</div>" +
           '<button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>' +
         "</div>" +
@@ -112,7 +115,7 @@
       '<div class="nav-scrim" id="navScrim"></div>' +
       '<div class="mobile-sticky-cta">' +
         '<a href="get-started.html" class="btn btn-primary">Request Quote</a>' +
-        '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary">' + PHONE + "</a>" +
+        '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary"' + CALL_ONCLICK + ">" + PHONE + "</a>" +
       "</div>" +
       '<aside class="mobile-nav" id="mobileNav">' +
         '<button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>' +

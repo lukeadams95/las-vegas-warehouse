@@ -10,6 +10,24 @@
 
   gtag('config', 'G-WM135GSMP0');
 </script>
+<!-- Event snippet for Click to call (1) conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-18411956292/FB06CI-7-ugcEMTQwMtE',
+      'value': 1.0,
+      'currency': 'USD',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Convention Storage | Las Vegas Warehouse</title>
@@ -150,7 +168,7 @@
         <p class="lead">Las Vegas Warehouse provides a full service pack, ship, wrap, stack, store, inventory, and storage service for all of greater Las Vegas, Nevada's convention business industry. Located right off of Dean Martin blvd. right behind T-Mobile Arena and Allegiant Stadium we are the perfect drop off, pick up, short or long term storage facility in the area near you.</p>
         <div class="btn-row">
           <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-          <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+          <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
     </div>
@@ -168,7 +186,7 @@
           <p style="max-width:560px;margin:0 auto var(--space-6);">Our local storage warehouse services offer professional inventory management and storage for large scale goods and shipments that you need cared for either short or long term. Family owned ran and operated company Las Vegas Warehouse is your one stop destination for all inbound, outbound, receiving, shipping, packing, freight transport, and storage industry solutions. We are your storage warehouse solution that offers every service that you need all under one roof.</p>
           <div class="btn-row" style="justify-content:center;">
             <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-            <a href="tel:18008064119" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+            <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
         <div class="split-media media-tall"><img loading="lazy" src="images/convention-center.webp" alt="Las Vegas Convention Center"></div>
@@ -204,7 +222,7 @@
       <p style="text-align:left;max-width:640px;margin:var(--space-6) auto 0;color:var(--color-neutral-200);">We will help determine your optimal inventory placement strategically for improved speed, function, and cost.</p>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -284,7 +302,7 @@
       </div>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -324,7 +342,7 @@
       <p>We love your business inquiring. Let us give you a quote and talk about your project, plans, and future. We hope to be the leading industry service provider for you and company. Thank you for taking the time to see what we have to offer, we promise we are the right location you can trust for years to come.</p>
       <div class="btn-row" style="justify-content:center;">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
