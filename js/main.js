@@ -1,7 +1,7 @@
 /* ==========================================================================
    Las Vegas Warehouse — shared site behavior
    Injects header/footer partials, wires nav + mobile menu + lightbox +
-   review carousel + stubbed forms.
+   photo gallery + review carousel + stubbed forms.
    ========================================================================== */
 
 (function () {
@@ -341,6 +341,77 @@
     });
   }
 
+  /* ---- Photo gallery (prev/next slideshow, auto-advances unless hovered) ---- */
+  function wirePhotoGallery() {
+    document.querySelectorAll("[data-photo-gallery]").forEach(function (wrap) {
+      var slides = Array.prototype.slice.call(wrap.querySelectorAll(".pg-slide"));
+      if (slides.length < 2) return;
+      var dots = Array.prototype.slice.call(wrap.querySelectorAll(".pg-dot"));
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var DELAY = 5000;
+      var index = 0;
+      var timer = null;
+      var held = false;
+
+      function show(i) {
+        index = (i + slides.length) % slides.length;
+        slides.forEach(function (slide, n) {
+          var on = n === index;
+          slide.classList.toggle("is-active", on);
+          slide.setAttribute("aria-hidden", on ? "false" : "true");
+        });
+        dots.forEach(function (dot, n) {
+          var on = n === index;
+          dot.classList.toggle("is-active", on);
+          dot.setAttribute("aria-current", on ? "true" : "false");
+        });
+      }
+      function stop() {
+        clearInterval(timer);
+        timer = null;
+      }
+      // Auto-advance only while the gallery is unattended: no cursor on it,
+      // no keyboard focus inside it, and the tab in the foreground.
+      function start() {
+        stop();
+        if (held || reduced.matches || document.hidden) return;
+        timer = setInterval(function () { show(index + 1); }, DELAY);
+      }
+      function go(i) {
+        show(i);
+        start();
+      }
+
+      var prev = wrap.querySelector("[data-pg-prev]");
+      var next = wrap.querySelector("[data-pg-next]");
+      if (prev) prev.addEventListener("click", function () { go(index - 1); });
+      if (next) next.addEventListener("click", function () { go(index + 1); });
+      dots.forEach(function (dot, n) {
+        dot.addEventListener("click", function () { go(n); });
+      });
+
+      function hold() { held = true; stop(); }
+      function release() { held = false; start(); }
+      wrap.addEventListener("mouseenter", hold);
+      wrap.addEventListener("mouseleave", release);
+      wrap.addEventListener("focusin", hold);
+      wrap.addEventListener("focusout", function (e) {
+        if (!wrap.contains(e.relatedTarget)) release();
+      });
+
+      wrap.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); }
+        if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); }
+      });
+
+      document.addEventListener("visibilitychange", start);
+      reduced.addEventListener("change", start);
+
+      show(0);
+      start();
+    });
+  }
+
   /* ---- Google review carousel ---- */
   function wireReviews() {
     var wrap = document.querySelector("[data-reviews]");
@@ -431,6 +502,7 @@
     wireMobileNav();
     wireLightbox();
     wireLogoMarquee();
+    wirePhotoGallery();
     wireReviews();
     wireForms();
   });

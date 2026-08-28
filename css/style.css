@@ -406,6 +406,45 @@ button { font-family: inherit; cursor: pointer; }
   .photo-marquee .pm-figure figcaption { font-size: 12px; }
 }
 
+/* ---- Photo gallery (prev/next slideshow, auto-advances unless hovered) ---- */
+.photo-gallery { max-width: 900px; margin: 0 auto; }
+.pg-stage {
+  position: relative; aspect-ratio: 16/10; overflow: hidden;
+  border-radius: var(--radius-media); box-shadow: var(--shadow-media); background: var(--color-neutral-900);
+}
+.pg-slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0.6s ease; margin: 0; }
+.pg-slide.is-active { opacity: 1; visibility: visible; }
+.pg-slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.pg-slide figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: var(--space-8) var(--space-6) var(--space-4);
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  font-family: var(--font-heading); font-weight: 700; font-size: 16px; text-align: center; color: #ffffff;
+}
+.pg-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 44px; height: 44px; border-radius: 50%; border: none; padding: 0;
+  background: rgba(255,255,255,0.85); color: var(--color-text);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: background 0.2s ease;
+}
+.pg-nav:hover { background: #ffffff; }
+.pg-prev { left: var(--space-4); }
+.pg-next { right: var(--space-4); }
+.pg-dots { display: flex; justify-content: center; gap: var(--space-2); margin-top: var(--space-4); }
+.pg-dot {
+  width: 10px; height: 10px; border-radius: 50%; border: none; padding: 0; cursor: pointer;
+  background: var(--color-neutral-400); transition: background 0.2s ease, transform 0.2s ease;
+}
+.pg-dot:hover { background: var(--color-neutral-600); }
+.pg-dot.is-active { background: var(--color-accent); transform: scale(1.2); }
+@media (max-width: 640px) {
+  .pg-stage { aspect-ratio: 4/3; }
+  .pg-nav { width: 36px; height: 36px; }
+  .pg-prev { left: var(--space-2); }
+  .pg-next { right: var(--space-2); }
+  .pg-slide figcaption { font-size: 14px; padding: var(--space-8) var(--space-4) var(--space-3); }
+}
+
 /* ---- Callouts (LVW guarantee) ---- */
 .callout-box {
   background: #f2f1ee;
