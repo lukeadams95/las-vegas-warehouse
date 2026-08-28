@@ -1,15 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WM135GSMP0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WM135GSMP0');
+</script>
+<!-- Event snippet for Click to call (1) conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-18411956292/FB06CI-7-ugcEMTQwMtE',
+      'value': 1.0,
+      'currency': 'USD',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Las Vegas Warehouse | Storage, Fulfillment &amp; 3PL Logistics</title>
-<meta name="description" content="Las Vegas Warehouse provides short and long-term storage, fine art handling, convention storage, cross-docking, and 3PL fulfillment from our Las Vegas, NV facility.">
+<meta name="description" content="Las Vegas Warehouse provides short and long-term storage, fine art handling, convention storage, cross-docking, and 3PL fulfillment in Las Vegas, NV.">
+<link rel="canonical" href="https://lasvegaswarehouse.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Las Vegas Warehouse">
+<meta property="og:title" content="Las Vegas Warehouse | Storage, Fulfillment &amp; 3PL Logistics">
+<meta property="og:description" content="Las Vegas Warehouse provides short and long-term storage, fine art handling, convention storage, cross-docking, and 3PL fulfillment in Las Vegas, NV.">
+<meta property="og:url" content="https://lasvegaswarehouse.com/">
+<meta property="og:image" content="https://lasvegaswarehouse.com/images/home-hero.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Las Vegas Warehouse | Storage, Fulfillment &amp; 3PL Logistics">
+<meta name="twitter:description" content="Las Vegas Warehouse provides short and long-term storage, fine art handling, convention storage, cross-docking, and 3PL fulfillment in Las Vegas, NV.">
+<meta name="twitter:image" content="https://lasvegaswarehouse.com/images/home-hero.webp">
 <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#ED0A04">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="css/style.css">
 <script type="text/javascript">
     (function(k) {
@@ -19,12 +61,64 @@
         s.dataset.feedbucket=k;document.head.appendChild(s);
     })('7LUoOhDnqbItLYvHXarG')
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://lasvegaswarehouse.com/#organization",
+      "name": "Las Vegas Warehouse",
+      "url": "https://lasvegaswarehouse.com/",
+      "logo": "https://lasvegaswarehouse.com/assets/lvw-logo.webp",
+      "sameAs": [
+        "https://x.com/lasvwarehouse",
+        "https://www.linkedin.com/company/101277738",
+        "https://maps.app.goo.gl/ugvBraH43Vmp14GJA"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://lasvegaswarehouse.com/#website",
+      "url": "https://lasvegaswarehouse.com/",
+      "name": "Las Vegas Warehouse",
+      "publisher": {
+        "@id": "https://lasvegaswarehouse.com/#organization"
+      }
+    },
+    {
+      "@type": [
+        "SelfStorage",
+        "MovingCompany"
+      ],
+      "@id": "https://lasvegaswarehouse.com/#localbusiness",
+      "name": "Las Vegas Warehouse",
+      "url": "https://lasvegaswarehouse.com/",
+      "image": "https://lasvegaswarehouse.com/images/storage-partner.webp",
+      "telephone": "+18008064119",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "4640 Polaris Ave",
+        "addressLocality": "Las Vegas",
+        "addressRegion": "NV",
+        "postalCode": "89103",
+        "addressCountry": "US"
+      },
+      "parentOrganization": {
+        "@id": "https://lasvegaswarehouse.com/#organization"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-page="index.html">
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
-<div id="site-header"></div>
+<header id="site-header"></header>
 
-<main>
+<main id="main-content">
 
   <!-- Hero -->
   <section class="hero-video" style="background-image:url('images/home-hero.webp');">
@@ -36,7 +130,7 @@
         <p class="lead">Our strategic Las Vegas location makes us the go-to partner for high-end storage, warehousing, logistics, 3PL, and fulfillment &mdash; short and long-term storage backed by a team dedicated to safety and security.</p>
         <div class="btn-row" style="justify-content:flex-start;">
           <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-          <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+          <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
         </div>
         <div class="hero-trust">
           <a class="google-badge" href="https://maps.app.goo.gl/ugvBraH43Vmp14GJA" target="_blank" rel="noopener noreferrer">
@@ -67,10 +161,10 @@
         <div class="qc-title">Get A <span style="color:#ED0A04;">FREE QUOTE</span></div>
         <p>Fill out the form and we'll get back to you ASAP.</p>
         <form data-contact-form>
-          <input class="field-dark" type="text" placeholder="Your Name" required>
-          <input class="field-dark" type="tel" placeholder="Phone Number" required>
-          <input class="field-dark" type="email" placeholder="Email Address" required>
-          <select class="field-dark">
+          <input class="field-dark" type="text" name="name" placeholder="Your Name" required>
+          <input class="field-dark" type="tel" name="phone" placeholder="Phone Number" required>
+          <input class="field-dark" type="email" name="email" placeholder="Email Address" required>
+          <select class="field-dark" name="service">
             <option>Select a Service</option>
             <option>Art Storage</option>
             <option>Warehouse Storage</option>
@@ -78,7 +172,6 @@
           </select>
           <a href="#" class="promo-link">Promo Code?</a>
           <button type="submit" class="btn btn-primary btn-block"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></button>
-          <div class="form-status"></div>
         </form>
       </div>
     </div>
@@ -87,19 +180,19 @@
   <!-- Client highlights -->
   <section class="section section-white">
     <div class="container">
-      <h3 class="center" style="margin-bottom:var(--space-6);">We're Proud Of Our <span class="accent">Clients</span>!</h3>
+      <h2 class="center" style="margin-bottom:var(--space-6);">We're Proud Of Our <span class="accent">Clients</span>!</h2>
       <div class="logo-marquee" data-logo-marquee>
         <div class="logo-marquee-track">
-          <figure><img src="assets/client-redbull.webp" alt="Red Bull" draggable="false"></figure>
-          <figure><img src="assets/client-wynn.webp" alt="Wynn Las Vegas" draggable="false"></figure>
-          <figure><img src="assets/client-canes.webp" alt="Raising Cane's" draggable="false"></figure>
-          <figure><img src="images/client-logo-ricks-restorations.webp" alt="Rick's Restorations" draggable="false"></figure>
-          <figure><img src="images/client-logo-lv-crating.webp" alt="Las Vegas Crating &amp; Logistics" draggable="false"></figure>
-          <figure aria-hidden="true"><img src="assets/client-redbull.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img src="assets/client-wynn.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img src="assets/client-canes.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img src="images/client-logo-ricks-restorations.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img src="images/client-logo-lv-crating.webp" alt="" draggable="false"></figure>
+          <figure><img loading="lazy" src="assets/client-redbull.webp" alt="Red Bull" draggable="false"></figure>
+          <figure><img loading="lazy" src="assets/client-wynn.webp" alt="Wynn Las Vegas" draggable="false"></figure>
+          <figure><img loading="lazy" src="assets/client-canes.webp" alt="Raising Cane's" draggable="false"></figure>
+          <figure><img loading="lazy" src="images/client-logo-ricks-restorations.webp" alt="Rick's Restorations" draggable="false"></figure>
+          <figure><img loading="lazy" src="images/client-logo-lv-crating.webp" alt="Las Vegas Crating &amp; Logistics" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="assets/client-redbull.webp" alt="" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="assets/client-wynn.webp" alt="" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="assets/client-canes.webp" alt="" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="images/client-logo-ricks-restorations.webp" alt="" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="images/client-logo-lv-crating.webp" alt="" draggable="false"></figure>
         </div>
       </div>
     </div>
@@ -109,7 +202,7 @@
   <section class="section section-alt">
     <div class="container">
       <div class="split">
-        <div class="split-media media-fill"><img src="images/who-we-are-team.webp" alt="Las Vegas Warehouse team"></div>
+        <div class="split-media media-fill"><img loading="lazy" src="images/who-we-are-team.webp" alt="Las Vegas Warehouse team"></div>
         <div>
           <div class="section-head">
             <div class="ghost-word">Who</div>
@@ -127,7 +220,7 @@
           </div>
           <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
             <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-            <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+            <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
       </div>
@@ -152,7 +245,7 @@
       </ul>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -193,7 +286,7 @@
       </div>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -218,7 +311,7 @@
       </div>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -236,11 +329,11 @@
           <p style="opacity:0.75;max-width:480px;margin:0 auto var(--space-3);">RTDIQ is our personalized, cloud-based inventory management software &mdash; built to integrate directly with your existing systems, so you always know what's stored, where, and its status.</p>
           <a href="contact.html" class="btn btn-secondary">Find out more</a>
         </div>
-        <div class="split-media media-16-10"><img src="images/rtdiq-software.webp" alt="RTDIQ inventory management software"></div>
+        <div class="split-media media-16-10"><img loading="lazy" src="images/rtdiq-software.webp" alt="RTDIQ inventory management software"></div>
       </div>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -257,50 +350,50 @@
       </div>
       <div class="portfolio-grid">
         <div class="portfolio-item">
-          <div class="portfolio-thumb" data-lightbox-trigger="images/car-crating-storage.webp" data-lightbox-title="Car Crating &amp; Storage"><img src="images/car-crating-storage.webp" alt="Car Crating &amp; Storage"></div>
+          <div class="portfolio-thumb" data-lightbox-trigger="images/car-crating-storage.webp" data-lightbox-title="Car Crating &amp; Storage"><img loading="lazy" src="images/car-crating-storage.webp" alt="Car Crating &amp; Storage"></div>
           <div class="tag tag-outline">Vehicles</div>
           <div class="card-title">Car Crating &amp; Storage</div>
         </div>
         <div class="portfolio-item">
-          <div class="portfolio-thumb" data-lightbox-trigger="images/art-collection-statues.webp" data-lightbox-title="Public &amp; Private Art Collections"><img src="images/art-collection-statues.webp" alt="Public &amp; Private Art Collections"></div>
+          <div class="portfolio-thumb" data-lightbox-trigger="images/art-collection-statues.webp" data-lightbox-title="Public &amp; Private Art Collections"><img loading="lazy" src="images/art-collection-statues.webp" alt="Public &amp; Private Art Collections"></div>
           <div class="tag tag-outline">Art</div>
           <div class="card-title">Public &amp; Private Art Collections</div>
         </div>
         <div class="portfolio-item">
-          <div class="portfolio-thumb" data-lightbox-trigger="images/vintage-slot-machine.webp" data-lightbox-title="Vintage Slot Machines &amp; Games"><img src="images/vintage-slot-machine.webp" alt="Vintage Slot Machines &amp; Games"></div>
+          <div class="portfolio-thumb" data-lightbox-trigger="images/vintage-slot-machine.webp" data-lightbox-title="Vintage Slot Machines &amp; Games"><img loading="lazy" src="images/vintage-slot-machine.webp" alt="Vintage Slot Machines &amp; Games"></div>
           <div class="tag tag-outline">Casino</div>
           <div class="card-title">Vintage Slot Machines &amp; Games</div>
         </div>
         <div class="portfolio-item">
-          <div class="portfolio-thumb" data-lightbox-trigger="images/fine-art-statue-shipping.webp" data-lightbox-title="Fine Art Statues &amp; Sculptures"><img src="images/fine-art-statue-shipping.webp" alt="Fine Art Statues &amp; Sculptures"></div>
+          <div class="portfolio-thumb" data-lightbox-trigger="images/fine-art-statue-shipping.webp" data-lightbox-title="Fine Art Statues &amp; Sculptures"><img loading="lazy" src="images/fine-art-statue-shipping.webp" alt="Fine Art Statues &amp; Sculptures"></div>
           <div class="tag tag-outline">Art</div>
           <div class="card-title">Fine Art Statues &amp; Sculptures</div>
         </div>
         <div class="portfolio-item">
-          <div class="portfolio-thumb" data-lightbox-trigger="images/davinci-exhibit-pack-ship.webp" data-lightbox-title="Custom Art Shipping &amp; Storage"><img src="images/davinci-exhibit-pack-ship.webp" alt="Custom Art Shipping &amp; Storage"></div>
+          <div class="portfolio-thumb" data-lightbox-trigger="images/davinci-exhibit-pack-ship.webp" data-lightbox-title="Custom Art Shipping &amp; Storage"><img loading="lazy" src="images/davinci-exhibit-pack-ship.webp" alt="Custom Art Shipping &amp; Storage"></div>
           <div class="tag tag-outline">Logistics</div>
           <div class="card-title">Custom Art Shipping &amp; Storage</div>
         </div>
         <div class="portfolio-item">
-          <div class="portfolio-thumb" data-lightbox-trigger="images/davinci-exhibit-machine.webp" data-lightbox-title="Leonardo DaVinci Exhibit"><img src="images/davinci-exhibit-machine.webp" alt="Leonardo DaVinci Exhibit"></div>
+          <div class="portfolio-thumb" data-lightbox-trigger="images/davinci-exhibit-machine.webp" data-lightbox-title="Leonardo DaVinci Exhibit"><img loading="lazy" src="images/davinci-exhibit-machine.webp" alt="Leonardo DaVinci Exhibit"></div>
           <div class="tag tag-outline">Exhibit</div>
           <div class="card-title">Leonardo DaVinci Exhibit</div>
         </div>
         <div class="portfolio-item">
-          <div class="portfolio-thumb" data-lightbox-trigger="images/kiss-art-collection.webp" data-lightbox-title="KISS Art Collection (Hard Rock)"><img src="images/kiss-art-collection.webp" alt="KISS Art Collection (Hard Rock)"></div>
+          <div class="portfolio-thumb" data-lightbox-trigger="images/kiss-art-collection.webp" data-lightbox-title="KISS Art Collection (Hard Rock)"><img loading="lazy" src="images/kiss-art-collection.webp" alt="KISS Art Collection (Hard Rock)"></div>
           <div class="tag tag-outline">Exhibit</div>
           <div class="card-title">KISS Art Collection (Hard Rock)</div>
         </div>
       </div>
       <div class="lightbox" data-lightbox>
         <div class="lightbox-inner">
-          <img src="" alt="">
+          <img loading="lazy" src="" alt="">
           <button class="lightbox-close">Close &times;</button>
         </div>
       </div>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary on-light">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -316,7 +409,7 @@
       </div>
       <div class="btn-row" style="justify-content:center;">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -325,14 +418,14 @@
   <section class="section">
     <div class="container">
       <div class="location-grid">
-        <div class="map-frame media-16-9"><img src="assets/lv-map.png" alt="Map of Las Vegas Warehouse location across the United States"></div>
+        <div class="map-frame media-16-9"><img loading="lazy" src="assets/lv-map.png" alt="Map of Las Vegas Warehouse location across the United States"></div>
         <div class="location-panel">
           <div class="location-block grow">
             <div class="kicker"><span class="dash" style="width:24px;"></span><span class="label" style="font-size:12px;">Las Vegas, NV</span></div>
             <div class="loc-title">4640 Polaris Ave<br>Las Vegas, NV 89103</div>
           </div>
           <div class="location-block">
-            <a class="loc-phone" href="tel:18008064119">1-800-806-4119</a>
+            <a class="loc-phone" href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');">1-800-806-4119</a>
             <a class="loc-email" href="mailto:Contact@LasVegasWarehouse.com">Contact@LasVegasWarehouse.com</a>
           </div>
           <div class="location-block">
@@ -376,14 +469,14 @@
       <p>Talk to our team about short- or long-term storage, fulfillment, and white-glove handling built for your needs.</p>
       <div class="btn-row" style="justify-content:center;">
         <a href="get-started.html" class="btn btn-primary"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></a>
-        <a href="tel:18008064119" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
+        <a href="tel:18008064119" onclick="return gtag_report_conversion('tel:18008064119');" class="btn btn-secondary">1-800-806-4119 <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
 
 </main>
 
-<div id="site-footer"></div>
+<footer id="site-footer"></footer>
 <script src="js/main.js"></script>
 </body>
 </html>

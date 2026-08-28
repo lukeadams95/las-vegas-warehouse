@@ -9,6 +9,9 @@
 
   var PHONE = "1-800-806-4119";
   var PHONE_DIGITS = "18008064119";
+  // Google Ads click-to-call conversion tracking (gtag_report_conversion is
+  // defined per-page in <head>, right after the Google tag).
+  var CALL_ONCLICK = ' onclick="return gtag_report_conversion(\'tel:' + PHONE_DIGITS + '\');"';
 
   var NAV = [
     { label: "Home", href: "index.html" },
@@ -48,7 +51,8 @@
         : "";
       return (
         '<li data-nav-item="' + item.href + '">' +
-        '<a href="' + item.href + '" data-nav-href="' + item.href + '">' + item.label +
+        '<a href="' + item.href + '" data-nav-href="' + item.href + '"' +
+        (hasKids ? ' aria-haspopup="true" aria-expanded="false"' : "") + ">" + item.label +
         (hasKids ? '<span class="plus">+</span>' : "") +
         "</a>" + sub +
         "</li>"
@@ -67,7 +71,7 @@
       return (
         "<li>" +
         '<a href="' + item.href + '" data-nav-href="' + item.href + '"' +
-        (hasKids ? ' data-mobile-toggle="mobile-sub-' + i + '"' : "") + ">" +
+        (hasKids ? ' data-mobile-toggle="mobile-sub-' + i + '" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-sub-' + i + '"' : "") + ">" +
         item.label + (hasKids ? '<span class="plus">+</span>' : "") +
         "</a>" + sub +
         "</li>"
@@ -79,7 +83,7 @@
         '<div class="container">' +
           '<div class="u-addr">4640 Polaris Ave. Las Vegas, NV 89103</div>' +
           '<div class="u-right">' +
-            '<a class="u-call" href="tel:' + PHONE_DIGITS + '">Call Us : ' + PHONE + "</a>" +
+            '<a class="u-call" href="tel:' + PHONE_DIGITS + '"' + CALL_ONCLICK + ">Call Us : " + PHONE + "</a>" +
             '<div class="u-sep"></div>' +
             '<a class="u-contact" href="contact.html">Contact Us</a>' +
           "</div>" +
@@ -103,15 +107,15 @@
               "</span>" +
             "</div>" +
             '<a href="get-started.html" class="btn btn-primary btn-sm">Request Quote</a>' +
-            '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary btn-sm">' + PHONE + "</a>" +
+            '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary btn-sm"' + CALL_ONCLICK + ">" + PHONE + "</a>" +
           "</div>" +
-          '<button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>' +
+          '<button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>' +
         "</div>" +
       "</nav>" +
       '<div class="nav-scrim" id="navScrim"></div>' +
       '<div class="mobile-sticky-cta">' +
         '<a href="get-started.html" class="btn btn-primary">Request Quote</a>' +
-        '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary">' + PHONE + "</a>" +
+        '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary"' + CALL_ONCLICK + ">" + PHONE + "</a>" +
       "</div>" +
       '<aside class="mobile-nav" id="mobileNav">' +
         '<button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>' +
@@ -126,30 +130,30 @@
       '<div class="container">' +
         '<div class="footer-grid">' +
           "<div>" +
-            '<img class="footer-logo" src="assets/lvw-logo-white.webp" alt="Las Vegas Warehouse">' +
+            '<img class="footer-logo" src="assets/lvw-logo-white.webp" alt="Las Vegas Warehouse" loading="lazy">' +
             '<p class="f-blurb">Full-service warehouse storage, packing, and 3PL fulfillment out of Las Vegas, NV.</p>' +
             '<div class="footer-social">' +
-              '<a href="#" aria-label="Facebook"><img src="images/social-facebook.webp" alt="" width="18" height="18"></a>' +
-              '<a href="https://x.com/lasvwarehouse" target="_blank" rel="noopener noreferrer" aria-label="X"><img src="images/social-x.webp" alt="" width="18" height="18"></a>' +
-              '<a href="https://www.linkedin.com/company/101277738" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="images/social-linkedin.webp" alt="" width="18" height="18"></a>' +
+              '<a href="#" aria-label="Facebook"><img src="images/social-facebook.webp" alt="" width="18" height="18" loading="lazy"></a>' +
+              '<a href="https://x.com/lasvwarehouse" target="_blank" rel="noopener noreferrer" aria-label="X"><img src="images/social-x.webp" alt="" width="18" height="18" loading="lazy"></a>' +
+              '<a href="https://www.linkedin.com/company/101277738" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="images/social-linkedin.webp" alt="" width="18" height="18" loading="lazy"></a>' +
             "</div>" +
           "</div>" +
           "<div>" +
             "<h4>Explore</h4>" +
-            '<div class="footer-links">' +
+            '<nav class="footer-links" aria-label="Explore">' +
               '<a href="our-history.html">Our History</a>' +
               '<a href="warehouse-services.html">What We Do</a>' +
               '<a href="get-started.html">Get Started</a>' +
               '<a href="careers.html">Careers</a>' +
-            "</div>" +
+            "</nav>" +
           "</div>" +
           "<div>" +
             "<h4>Support</h4>" +
-            '<div class="footer-links">' +
+            '<nav class="footer-links" aria-label="Support">' +
               '<a href="contact.html">Contact Us</a>' +
               '<a href="mailto:Contact@LasVegasWarehouse.com">Contact@LasVegasWarehouse.com</a>' +
               '<a href="privacy-policy.html">Privacy Policy</a>' +
-            "</div>" +
+            "</nav>" +
           "</div>" +
           "<div>" +
             "<h4>Address</h4>" +
@@ -208,7 +212,8 @@
     document.querySelectorAll('.main-nav > ul > li > a[href="#"]').forEach(function (a) {
       a.addEventListener("click", function (e) {
         e.preventDefault();
-        a.closest("li").classList.toggle("open");
+        var open = a.closest("li").classList.toggle("open");
+        a.setAttribute("aria-expanded", open ? "true" : "false");
       });
     });
   }
@@ -218,8 +223,14 @@
     var close = document.getElementById("mobileNavClose");
     var panel = document.getElementById("mobileNav");
     var scrim = document.getElementById("navScrim");
-    function open() { panel.classList.add("open"); scrim.classList.add("open"); document.body.style.overflow = "hidden"; }
-    function shut() { panel.classList.remove("open"); scrim.classList.remove("open"); document.body.style.overflow = ""; }
+    function open() {
+      panel.classList.add("open"); scrim.classList.add("open"); document.body.style.overflow = "hidden";
+      if (toggle) toggle.setAttribute("aria-expanded", "true");
+    }
+    function shut() {
+      panel.classList.remove("open"); scrim.classList.remove("open"); document.body.style.overflow = "";
+      if (toggle) toggle.setAttribute("aria-expanded", "false");
+    }
     if (toggle) toggle.addEventListener("click", open);
     if (close) close.addEventListener("click", shut);
     if (scrim) scrim.addEventListener("click", shut);
@@ -227,7 +238,10 @@
       a.addEventListener("click", function (e) {
         e.preventDefault();
         var sub = document.getElementById(a.getAttribute("data-mobile-toggle"));
-        if (sub) sub.classList.toggle("open");
+        if (sub) {
+          var isOpen = sub.classList.toggle("open");
+          a.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        }
       });
     });
   }
@@ -470,26 +484,138 @@
     render();
   }
 
-  /* ---- Stubbed forms ----
-     TODO(resend): replace the setTimeout stub below with a real fetch() call
-     to a Resend-backed endpoint once that's wired up server-side. */
+  /* ---- Forms ----
+     On submit, any existing lead webhook (e.g. GoHighLevel) keeps firing as
+     before. Alongside it — never instead of it — we also POST the form data
+     to the send-lead-notification function so the team gets an email alert.
+     Both calls run in parallel and are fire-and-forget: a failure on either
+     one is logged only and never blocks navigation. keepalive lets them
+     finish even though we navigate to /thank-you.html right after firing. */
+  var LEAD_NOTIFICATION_ENDPOINT = "/api/send-lead-notification";
+  // Extensionless: Cloudflare Pages 308-redirects /thank-you.html here anyway,
+  // so navigating straight to the final URL skips a redundant redirect hop.
+  var THANK_YOU_PATH = "/thank-you";
+
+  /* ---- Lead source attribution ----
+     Captured once per browser session (first-touch: an ad click that lands,
+     then browses a few more pages before submitting, should still be
+     attributed to that first click, not whatever page the form is on).
+     Google Ads and tagged campaigns (utm_source/utm_medium) are unambiguous.
+     A bare Google referrer is NOT: Google Business Profile "Website" button
+     clicks and organic search results both show referrer=google.com with no
+     way to tell them apart client-side. To get a clean GBP bucket, tag the
+     GBP listing's website link with e.g. ?utm_source=gbp&utm_medium=organic. */
+  var ATTRIBUTION_STORAGE_KEY = "lvw_attribution";
+
+  function classifySource(params, referrer) {
+    var gclid = params.get("gclid");
+    var utmSource = params.get("utm_source");
+    var utmMedium = params.get("utm_medium");
+    var utmCampaign = params.get("utm_campaign") || "";
+
+    if (gclid || (utmSource && /google/i.test(utmSource) && utmMedium && /cpc|ppc|paid/i.test(utmMedium))) {
+      return { source: "Google Ads", campaign: utmCampaign };
+    }
+    if (utmSource) {
+      var KNOWN_ACRONYMS = { gbp: "GBP", seo: "SEO", ppc: "PPC" };
+      var label = KNOWN_ACRONYMS[utmSource.toLowerCase()] || (utmSource.charAt(0).toUpperCase() + utmSource.slice(1));
+      if (utmMedium) label += " (" + utmMedium + ")";
+      return { source: label, campaign: utmCampaign };
+    }
+    if (!referrer) {
+      return { source: "Direct", campaign: "" };
+    }
+    var host;
+    try {
+      host = new URL(referrer).hostname.replace(/^www\./, "");
+    } catch (e) {
+      host = referrer;
+    }
+    if (host === window.location.hostname) {
+      return { source: "Direct", campaign: "" };
+    }
+    if (/^google\./i.test(host)) {
+      return { source: "Google (Organic or GBP)", campaign: "" };
+    }
+    if (/^(bing|yahoo|duckduckgo)\./i.test(host)) {
+      return { source: "Organic Search (" + host + ")", campaign: "" };
+    }
+    return { source: "Referral (" + host + ")", campaign: "" };
+  }
+
+  function getAttribution() {
+    try {
+      var stored = sessionStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+
+    var result = classifySource(new URLSearchParams(window.location.search), document.referrer);
+
+    try {
+      sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(result));
+    } catch (e) {}
+
+    return result;
+  }
+
+  function serializeForm(form) {
+    var data = {};
+    var attribution = getAttribution();
+    if (attribution.source) data.source = attribution.source;
+    if (attribution.campaign) data.campaign = attribution.campaign;
+    new FormData(form).forEach(function (value, key) {
+      if (typeof value === "string" && value.trim() !== "") {
+        data[key] = value;
+      }
+    });
+    return data;
+  }
+
+  function sendLeadNotification(data) {
+    fetch(LEAD_NOTIFICATION_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      keepalive: true,
+    })
+      .then(function (res) {
+        if (!res.ok) {
+          console.error("Lead notification email failed with status " + res.status);
+        }
+      })
+      .catch(function (err) {
+        console.error("Lead notification email failed:", err);
+      });
+  }
+
+  function fireExistingWebhook(form, data) {
+    var webhookUrl = form.getAttribute("data-webhook-url");
+    if (!webhookUrl) return;
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      keepalive: true,
+    }).catch(function (err) {
+      console.error("Lead webhook failed:", err);
+    });
+  }
+
   function wireForms() {
     document.querySelectorAll("[data-contact-form]").forEach(function (form) {
-      var status = form.querySelector(".form-status");
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         if (!form.checkValidity()) {
           form.reportValidity();
           return;
         }
-        var submitBtn = form.querySelector('button[type="submit"], a.btn[type="submit"]');
-        setTimeout(function () {
-          if (status) {
-            status.textContent = "Thanks — your message has been received. A member of our team will reach out shortly.";
-            status.classList.add("show", "success");
-          }
-          form.reset();
-        }, 600);
+        var formData = serializeForm(form);
+
+        // Fire in parallel; neither call blocks the other or the redirect below.
+        fireExistingWebhook(form, formData);
+        sendLeadNotification(formData);
+
+        window.location.href = THANK_YOU_PATH;
       });
     });
   }
@@ -505,5 +631,10 @@
     wirePhotoGallery();
     wireReviews();
     wireForms();
+    // Capture attribution on every pageview, not lazily on submit — the
+    // UTM params / referrer that identify the source are only present on
+    // the page someone actually landed on, which may not be the page they
+    // eventually fill out the form on.
+    getAttribution();
   });
 })();
