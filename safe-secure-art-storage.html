@@ -270,23 +270,31 @@ function gtag_report_conversion(url) {
         <div class="ghost-word">Gallery</div>
         <div class="kicker"><span class="dash"></span><span class="label">From Our Warehouse Floor</span></div>
         <h2>Gallery &amp; <span class="accent">Collection Pieces</span></h2>
-        <p>A look at some of the gallery installations and collection pieces we've packed, crated, and stored. Click any photo to view it in full.</p>
+        <p>A look at some of the gallery installations and collection pieces we've packed, crated, and stored. Photos advance on their own; hover to pause, or use the arrows to browse at your own pace.</p>
       </div>
-      <div class="logo-marquee photo-marquee" data-logo-marquee>
-        <div class="logo-marquee-track">
-          <figure class="pm-figure" data-lightbox-trigger="images/art-gallery-tire-shark-sculpture.jpg" data-lightbox-title="Gallery Sculpture Installation"><img loading="lazy" src="images/art-gallery-tire-shark-sculpture.jpg" alt="Large sculpture installation in an art gallery" draggable="false"><figcaption>Gallery Sculpture Installation</figcaption></figure>
-          <figure class="pm-figure" data-lightbox-trigger="images/art-gallery-interior-paintings.webp" data-lightbox-title="Fine Art Gallery Collection"><img loading="lazy" src="images/art-gallery-interior-paintings.webp" alt="Fine art gallery interior with framed paintings" draggable="false"><figcaption>Fine Art Gallery Collection</figcaption></figure>
-          <figure class="pm-figure" data-lightbox-trigger="images/large-fine-art-custom-shipping-gem-statue.webp" data-lightbox-title="Custom Crated Gem Sculpture"><img loading="lazy" src="images/large-fine-art-custom-shipping-gem-statue.webp" alt="Large gem sculpture in a custom shipping crate" draggable="false"><figcaption>Custom Crated Gem Sculpture</figcaption></figure>
-          <figure class="pm-figure" aria-hidden="true" data-lightbox-trigger="images/art-gallery-tire-shark-sculpture.jpg" data-lightbox-title="Gallery Sculpture Installation"><img loading="lazy" src="images/art-gallery-tire-shark-sculpture.jpg" alt="" draggable="false"><figcaption>Gallery Sculpture Installation</figcaption></figure>
-          <figure class="pm-figure" aria-hidden="true" data-lightbox-trigger="images/art-gallery-interior-paintings.webp" data-lightbox-title="Fine Art Gallery Collection"><img loading="lazy" src="images/art-gallery-interior-paintings.webp" alt="" draggable="false"><figcaption>Fine Art Gallery Collection</figcaption></figure>
-          <figure class="pm-figure" aria-hidden="true" data-lightbox-trigger="images/large-fine-art-custom-shipping-gem-statue.webp" data-lightbox-title="Custom Crated Gem Sculpture"><img loading="lazy" src="images/large-fine-art-custom-shipping-gem-statue.webp" alt="" draggable="false"><figcaption>Custom Crated Gem Sculpture</figcaption></figure>
+      <div class="photo-gallery" data-photo-gallery role="group" aria-roledescription="carousel" aria-label="Fine art storage and collection pieces photo gallery">
+        <div class="pg-stage">
+          <button class="pg-nav pg-prev" type="button" data-pg-prev aria-label="Previous photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+          <figure class="pg-slide is-active" aria-hidden="false"><img src="images/art-gallery-tire-shark-sculpture.jpg" alt="Large sculpture installation in an art gallery"><figcaption>Gallery Sculpture Installation</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/art-storage-crated-sculpture-wrapped.webp" alt="A large sculpture shrink-wrapped and blocked inside a custom-built crate"><figcaption>Custom Crate, Built to the Piece</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/art-gallery-interior-paintings.webp" alt="Fine art gallery interior with framed paintings"><figcaption>Fine Art Gallery Collection</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/art-storage-bronze-figures-foam-braced.webp" alt="A bronze figural sculpture braced with foam rails inside its crate"><figcaption>Foam-Braced Bronze</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/large-fine-art-custom-shipping-gem-statue.webp" alt="Large gem sculpture in a custom shipping crate"><figcaption>Custom Crated Gem Sculpture</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/art-storage-sculpture-crate-dock.webp" alt="A tall wrapped sculpture braced in its crate beside sealed crates at the dock"><figcaption>Crated &amp; Ready for Transit</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/art-storage-framed-art-foam-wrapped.webp" alt="A framed artwork edge-protected with foam and shrink-wrapped for storage"><figcaption>Framed Art, Wrapped for Storage</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/art-storage-brick-gorilla-sculpture.webp" alt="A large brick-built gorilla sculpture resting on padding in the warehouse"><figcaption>Contemporary Sculpture Handling</figcaption></figure>
+          <button class="pg-nav pg-next" type="button" data-pg-next aria-label="Next photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button>
         </div>
-      </div>
-    </div>
-    <div class="lightbox" data-lightbox>
-      <div class="lightbox-inner">
-        <img loading="lazy" src="" alt="">
-        <button class="lightbox-close">Close &times;</button>
+        <div class="pg-dots">
+          <button class="pg-dot is-active" type="button" aria-current="true" aria-label="Show photo 1 of 8"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 2 of 8"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 3 of 8"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 4 of 8"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 5 of 8"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 6 of 8"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 7 of 8"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 8 of 8"></button>
+        </div>
       </div>
     </div>
   </section>
@@ -297,16 +305,20 @@ function gtag_report_conversion(url) {
         <div class="ghost-word">World</div>
         <div class="kicker"><span class="dash"></span><span class="label">Custom Museum Crating</span></div>
         <h2>Art Storage From <span class="accent">Around The World</span></h2>
-        <p>A look at the museum exhibits and white-glove handling behind our custom crating work. Click any photo to view it in full.</p>
+        <p>A look at the museum exhibits and white-glove handling behind our custom crating work. Photos advance on their own; hover to pause, or use the arrows to browse at your own pace.</p>
       </div>
-      <div class="logo-marquee photo-marquee" data-logo-marquee>
-        <div class="logo-marquee-track">
-          <figure class="pm-figure" data-lightbox-trigger="images/davinci-exhibit-pack-ship.webp" data-lightbox-title="White Glove Museum Handling"><img loading="lazy" src="images/davinci-exhibit-pack-ship.webp" alt="White-gloved handler with a museum-quality portrait painting" draggable="false"><figcaption>White Glove Museum Handling</figcaption></figure>
-          <figure class="pm-figure" data-lightbox-trigger="images/davinci-exhibit-machine.webp" data-lightbox-title="Museum Exhibit Display"><img loading="lazy" src="images/davinci-exhibit-machine.webp" alt="Museum exhibit case housing a historic machine model" draggable="false"><figcaption>Museum Exhibit Display</figcaption></figure>
-          <figure class="pm-figure" data-lightbox-trigger="images/museum-gallery-render.webp" data-lightbox-title="Museum Gallery Layout"><img loading="lazy" src="images/museum-gallery-render.webp" alt="Museum gallery layout concept render" draggable="false"><figcaption>Museum Gallery Layout</figcaption></figure>
-          <figure class="pm-figure" aria-hidden="true" data-lightbox-trigger="images/davinci-exhibit-pack-ship.webp" data-lightbox-title="White Glove Museum Handling"><img loading="lazy" src="images/davinci-exhibit-pack-ship.webp" alt="" draggable="false"><figcaption>White Glove Museum Handling</figcaption></figure>
-          <figure class="pm-figure" aria-hidden="true" data-lightbox-trigger="images/davinci-exhibit-machine.webp" data-lightbox-title="Museum Exhibit Display"><img loading="lazy" src="images/davinci-exhibit-machine.webp" alt="" draggable="false"><figcaption>Museum Exhibit Display</figcaption></figure>
-          <figure class="pm-figure" aria-hidden="true" data-lightbox-trigger="images/museum-gallery-render.webp" data-lightbox-title="Museum Gallery Layout"><img loading="lazy" src="images/museum-gallery-render.webp" alt="" draggable="false"><figcaption>Museum Gallery Layout</figcaption></figure>
+      <div class="photo-gallery" data-photo-gallery style="margin-bottom:var(--space-8);" role="group" aria-roledescription="carousel" aria-label="Custom museum crating photo gallery">
+        <div class="pg-stage">
+          <button class="pg-nav pg-prev" type="button" data-pg-prev aria-label="Previous photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+          <figure class="pg-slide is-active" aria-hidden="false"><img src="images/davinci-exhibit-pack-ship.webp" alt="White-gloved handler with a museum-quality portrait painting"><figcaption>White Glove Museum Handling</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/davinci-exhibit-machine.webp" alt="Museum exhibit case housing a historic machine model"><figcaption>Museum Exhibit Display</figcaption></figure>
+          <figure class="pg-slide" aria-hidden="true"><img loading="lazy" src="images/museum-gallery-render.webp" alt="Museum gallery layout concept render"><figcaption>Museum Gallery Layout</figcaption></figure>
+          <button class="pg-nav pg-next" type="button" data-pg-next aria-label="Next photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button>
+        </div>
+        <div class="pg-dots">
+          <button class="pg-dot is-active" type="button" aria-current="true" aria-label="Show photo 1 of 3"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 2 of 3"></button>
+          <button class="pg-dot" type="button" aria-current="false" aria-label="Show photo 3 of 3"></button>
         </div>
       </div>
       <div class="pull-quote" style="max-width:760px;margin:0 auto var(--space-6);">
