@@ -139,7 +139,7 @@
             "</div>" +
           "</div>" +
           "<div>" +
-            "<h4>Explore</h4>" +
+            "<h3>Explore</h3>" +
             '<nav class="footer-links" aria-label="Explore">' +
               '<a href="our-history.html">Our History</a>' +
               '<a href="warehouse-services.html">What We Do</a>' +
@@ -148,7 +148,7 @@
             "</nav>" +
           "</div>" +
           "<div>" +
-            "<h4>Support</h4>" +
+            "<h3>Support</h3>" +
             '<nav class="footer-links" aria-label="Support">' +
               '<a href="contact.html">Contact Us</a>' +
               '<a href="mailto:Contact@LasVegasWarehouse.com">Contact@LasVegasWarehouse.com</a>' +
@@ -156,7 +156,7 @@
             "</nav>" +
           "</div>" +
           "<div>" +
-            "<h4>Address</h4>" +
+            "<h3>Address</h3>" +
             "<address>4640 Polaris Ave<br>Las Vegas, NV 89103</address>" +
           "</div>" +
         "</div>" +
@@ -302,7 +302,11 @@
         requestAnimationFrame(tick);
       }
 
-      measure();
+      // Deferred to next frame: injectPartials() just wrote innerHTML on the
+      // header, invalidating layout. Reading scrollWidth synchronously right
+      // after that forces the browser to do an unscheduled layout pass; a
+      // rAF callback runs after the browser's own layout/paint step instead.
+      requestAnimationFrame(measure);
       window.addEventListener("resize", measure);
       requestAnimationFrame(tick);
 

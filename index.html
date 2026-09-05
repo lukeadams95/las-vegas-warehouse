@@ -30,6 +30,7 @@ function gtag_report_conversion(url) {
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preload" as="image" href="/images/home-hero.webp" fetchpriority="high">
 <title>Las Vegas Warehouse | Storage, Fulfillment &amp; 3PL Logistics</title>
 <meta name="description" content="Las Vegas Warehouse provides short and long-term storage, fine art handling, convention storage, cross-docking, and 3PL fulfillment in Las Vegas, NV.">
 <link rel="canonical" href="https://lasvegaswarehouse.com/">
@@ -51,7 +52,9 @@ function gtag_report_conversion(url) {
 <meta name="theme-color" content="#ED0A04">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all';this.onload=null;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
 <script type="text/javascript">
     (function(k) {
@@ -164,7 +167,7 @@ function gtag_report_conversion(url) {
           <input class="field-dark" type="text" name="name" placeholder="Your Name" required>
           <input class="field-dark" type="tel" name="phone" placeholder="Phone Number" required>
           <input class="field-dark" type="email" name="email" placeholder="Email Address" required>
-          <select class="field-dark" name="service">
+          <select class="field-dark" name="service" aria-label="Select a Service">
             <option>Select a Service</option>
             <option>Art Storage</option>
             <option>Warehouse Storage</option>
@@ -263,25 +266,25 @@ function gtag_report_conversion(url) {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="M3.3 7 12 12l8.7-5M12 22V12"></path></svg>
           <div class="card-title">Art Storage</div>
           <p class="card-body">Climate-considered, secure storage for fine art collections, sculptures, and gallery pieces.</p>
-          <a href="safe-secure-art-storage.html" class="read-more">Read more &rarr;</a>
+          <a href="safe-secure-art-storage.html" class="read-more" aria-label="Read more about Art Storage">Read more &rarr;</a>
         </div>
         <div class="card">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 8.35V20a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8.35a1 1 0 0 1 .58-.9l9-4.2a1 1 0 0 1 .84 0l9 4.2a1 1 0 0 1 .58.9Z"></path><path d="M6 18h3v-3H6zM15 18h3v-3h-3zM10 21v-4a2 2 0 1 1 4 0v4"></path></svg>
           <div class="card-title">Full Service Warehouse Storage</div>
           <p class="card-body">Commercial and personal storage across our Las Vegas facility, scaled to your footprint.</p>
-          <a href="warehouse-services.html" class="read-more">Read more &rarr;</a>
+          <a href="warehouse-services.html" class="read-more" aria-label="Read more about Full Service Warehouse Storage">Read more &rarr;</a>
         </div>
         <div class="card">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
           <div class="card-title">Short or Long Term Options</div>
           <p class="card-body">Flexible terms for project-based moves or ongoing operational storage needs.</p>
-          <a href="small-local-moves-and-storage.html" class="read-more">Read more &rarr;</a>
+          <a href="small-local-moves-and-storage.html" class="read-more" aria-label="Read more about Short or Long Term Options">Read more &rarr;</a>
         </div>
         <div class="card">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v11h13Z"></path><path d="M14 9h4l3 4v5h-2"></path><circle cx="6.5" cy="18.5" r="2"></circle><circle cx="17.5" cy="18.5" r="2"></circle></svg>
           <div class="card-title">Pack / Ship / Store &amp; More</div>
           <p class="card-body">End-to-end handling &mdash; packing, crating, shipping, receiving, and cross-docking.</p>
-          <a href="get-started.html" class="read-more">Read more &rarr;</a>
+          <a href="get-started.html" class="read-more" aria-label="Read more about Pack / Ship / Store &amp; More">Read more &rarr;</a>
         </div>
       </div>
       <div class="btn-row" style="justify-content:center;margin-top:var(--space-6);">
@@ -477,6 +480,6 @@ function gtag_report_conversion(url) {
 </main>
 
 <footer id="site-footer"></footer>
-<script src="js/main.js"></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
