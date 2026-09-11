@@ -46,6 +46,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://lasvegaswarehouse.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lasvegaswarehouse.com/blog-choosing-warehouse-storage</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lasvegaswarehouse.com/blog-fine-art-storage-tips</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lasvegaswarehouse.com/blog-las-vegas-fulfillment-hub</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://lasvegaswarehouse.com/our-history</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
