@@ -34,6 +34,7 @@
     },
     { label: "Fine Art Installation / Removal", href: "fine-art-installation-removal.html" },
     { label: "Our History", href: "our-history.html" },
+    { label: "Blog", href: "blog.html" },
     { label: "Careers", href: "careers.html" },
     { label: "Contact Us", href: "contact.html" },
     { label: "Request Quote", href: "get-started.html" }
@@ -143,6 +144,7 @@
             '<nav class="footer-links" aria-label="Explore">' +
               '<a href="our-history.html">Our History</a>' +
               '<a href="warehouse-services.html">What We Do</a>' +
+              '<a href="blog.html">Blog</a>' +
               '<a href="get-started.html">Get Started</a>' +
               '<a href="careers.html">Careers</a>' +
             "</nav>" +
