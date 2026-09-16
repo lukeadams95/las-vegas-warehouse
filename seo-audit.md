@@ -233,6 +233,45 @@ Old WordPress media that was not carried over and has no equivalent. **404 is th
 
 The redirects, `robots.txt` change, and 404-page fix were all verified against a local emulation of Cloudflare Pages' serving behavior, **not against the deployed domain** — this environment's network policy blocks outbound requests to `lasvegaswarehouse.com`. Worth a post-deploy `curl -I` spot-check on a few of the redirected URLs, and a "Validate Fix" on the affected Search Console reports once deployed.
 
+---
+
+## Search Console "Page with redirect" remediation
+
+Second follow-up, prompted by a batch of "Page with redirect" URLs in Search Console.
+
+### What was happening
+
+Cloudflare Pages natively 308-redirects every `*.html` request to its extensionless equivalent (`/contact.html` → `/contact`). Meanwhile **every internal link on the site still pointed at the `.html` filename** — the known follow-up deliberately deferred under Category 6, since the `.html` link scheme had been chosen earlier in the project.
+
+The result: the extensionless URL was declared canonical in every `<head>` and listed in `sitemap.xml`, but every actual *link* Googlebot could follow pointed at a URL that immediately redirected. So Google kept crawling `.html` URLs, kept getting 308s, and kept filing them under "Page with redirect". Every internal navigation click also paid a needless redirect hop.
+
+This is not an error state — a 308 to the canonical URL is correct behavior, and the right page was always indexed. It is wasted crawl budget and a noisy report, and it resolves once nothing links to the redirecting form.
+
+### Fixed
+
+The `.html` link scheme is now retired in favor of the extensionless URLs already declared canonical. Files on disk keep their `.html` names — Cloudflare Pages serves them extensionless; only links changed.
+
+- **137 `href`s across all 21 HTML pages** rewritten to extensionless, root-relative form (`href="contact.html"` → `href="/contact"`, `href="index.html"` → `href="/"`).
+- **`js/main.js`** — `siteURL()` now strips `.html` and maps `index.html` to `/`, so the shared header/footer emit canonical URLs. `data-nav-href` still carries the bare filename, because `markActive()` matches it against `body[data-page]`, which carries the same value; the active-nav highlight is unaffected.
+- **`_redirects`** — added `/index.html → /` and `/index → /`. Cloudflare's native `.html` stripping would otherwise turn `/index.html` into `/index`, which serves the homepage a second time on a non-canonical URL. Both spellings now collapse onto `/` in one hop.
+- `canonical`, `og:url`, JSON-LD `url`/`item`, and `sitemap.xml` needed no changes — all were already extensionless.
+
+### Note on `/careers/`
+
+`/careers/` appearing in this report is **correct and needs no fix**. It is a legacy WordPress URL, 301'd to `/careers` by an intentional rule in `_redirects`. "Page with redirect" is the accurate, expected classification for a retired URL; it drops out of the report on its own once Google stops re-checking it.
+
+### Verified
+
+Against the local Cloudflare Pages emulator, with a headless-browser crawl of all 21 pages:
+
+- **1,038 internal links, 21 unique targets — 0 hit a redirect, 0 hit 4xx/5xx.** (Checked with `redirect: "manual"` so the *first* response is what's asserted, not the final one.)
+- All 19 `sitemap.xml` URLs return 200 directly.
+- Every page canonical matches a `sitemap.xml` entry (`thank-you` and `404` excluded by design — both `noindex`).
+- `_redirects` re-validated: 45 static + 5 dynamic rules, no duplicate sources, no loops, **no redirect chains** (no rule's destination is itself a rule's source), every destination resolves to a real file.
+- The previous fix did not regress: a 404 at any depth still exposes 0 nested crawlable links.
+
+Still not verified against the live domain — this environment's network policy blocks `lasvegaswarehouse.com`.
+
 ## What this audit could not verify
 
 Everything below requires either live production access (the domain has since redeployed several times during this session, so "live" state may differ from what was tested) or external tools/APIs this environment doesn't have:
