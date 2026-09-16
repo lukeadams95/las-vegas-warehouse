@@ -46,14 +46,20 @@
      /embed/ resolved "contact.html" to /embed/contact.html — a brand new
      crawlable 404 — so every unknown URL spawned a fresh set of them in
      Search Console. Leading "/" pins them to the site root at any depth.
+     Also drops the .html extension. Cloudflare Pages 308-redirects every
+     *.html request to its extensionless form, so linking to contact.html
+     sent Googlebot through a redirect on every internal link and filled
+     Search Console with "Page with redirect". Extensionless is the form
+     declared canonical in each page's <head> and listed in sitemap.xml.
      data-nav-href keeps the bare filename: markActive() matches it against
-     body[data-page], which is unprefixed. */
+     body[data-page], which carries the same unprefixed value. */
   function siteURL(href) {
     if (!href) return href;
-    var c = href.charAt(0);
-    if (c === "#" || c === "/") return href;          // anchor / already root-relative
+    if (href.charAt(0) === "#") return href;          // in-page anchor
     if (href.indexOf(":") !== -1) return href;        // mailto:, tel:, https:
-    return "/" + href;
+    var p = href.charAt(0) === "/" ? href : "/" + href;
+    if (p === "/index.html") return "/";
+    return p.replace(/\.html$/, "");
   }
 
   function navHTML() {
@@ -102,13 +108,13 @@
           '<div class="u-right">' +
             '<a class="u-call" href="tel:' + PHONE_DIGITS + '"' + CALL_ONCLICK + ">Call Us : " + PHONE + "</a>" +
             '<div class="u-sep"></div>' +
-            '<a class="u-contact" href="/contact.html">Contact Us</a>' +
+            '<a class="u-contact" href="/contact">Contact Us</a>' +
           "</div>" +
         "</div>" +
       "</div>" +
       '<nav class="site-nav">' +
         '<div class="container">' +
-          '<a href="/index.html" class="logo-link"><img src="/assets/lvw-logo.webp" alt="Las Vegas Warehouse"></a>' +
+          '<a href="/" class="logo-link"><img src="/assets/lvw-logo.webp" alt="Las Vegas Warehouse"></a>' +
           '<div class="main-nav" aria-label="Primary">' +
             "<ul>" + desktop + "</ul>" +
           "</div>" +
@@ -123,7 +129,7 @@
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>' +
               "</span>" +
             "</div>" +
-            '<a href="/get-started.html" class="btn btn-primary btn-sm">Request Quote</a>' +
+            '<a href="/get-started" class="btn btn-primary btn-sm">Request Quote</a>' +
             '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary btn-sm"' + CALL_ONCLICK + ">" + PHONE + "</a>" +
           "</div>" +
           '<button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>' +
@@ -131,13 +137,13 @@
       "</nav>" +
       '<div class="nav-scrim" id="navScrim"></div>' +
       '<div class="mobile-sticky-cta">' +
-        '<a href="/get-started.html" class="btn btn-primary">Request Quote</a>' +
+        '<a href="/get-started" class="btn btn-primary">Request Quote</a>' +
         '<a href="tel:' + PHONE_DIGITS + '" class="btn btn-primary"' + CALL_ONCLICK + ">" + PHONE + "</a>" +
       "</div>" +
       '<aside class="mobile-nav" id="mobileNav">' +
         '<button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>' +
         '<nav aria-label="Mobile"><ul>' + mobile + "</ul></nav>" +
-        '<a class="btn btn-primary btn-block mobile-nav-cta" href="/contact.html">Talk With Us</a>' +
+        '<a class="btn btn-primary btn-block mobile-nav-cta" href="/contact">Talk With Us</a>' +
       "</aside>"
     );
   }
@@ -158,19 +164,19 @@
           "<div>" +
             "<h3>Explore</h3>" +
             '<nav class="footer-links" aria-label="Explore">' +
-              '<a href="/our-history.html">Our History</a>' +
-              '<a href="/warehouse-services.html">What We Do</a>' +
-              '<a href="/blog.html">Blog</a>' +
-              '<a href="/get-started.html">Get Started</a>' +
-              '<a href="/careers.html">Careers</a>' +
+              '<a href="/our-history">Our History</a>' +
+              '<a href="/warehouse-services">What We Do</a>' +
+              '<a href="/blog">Blog</a>' +
+              '<a href="/get-started">Get Started</a>' +
+              '<a href="/careers">Careers</a>' +
             "</nav>" +
           "</div>" +
           "<div>" +
             "<h3>Support</h3>" +
             '<nav class="footer-links" aria-label="Support">' +
-              '<a href="/contact.html">Contact Us</a>' +
+              '<a href="/contact">Contact Us</a>' +
               '<a href="mailto:Contact@LasVegasWarehouse.com">Contact@LasVegasWarehouse.com</a>' +
-              '<a href="/privacy-policy.html">Privacy Policy</a>' +
+              '<a href="/privacy-policy">Privacy Policy</a>' +
             "</nav>" +
           "</div>" +
           "<div>" +

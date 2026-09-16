@@ -12,6 +12,13 @@
 # rules below always win over the catch-alls at the bottom of each section.
 # ==========================================================================
 
+# --- Homepage URL normalization -------------------------------------------
+# Cloudflare's native .html stripping turns /index.html into /index, which
+# then serves the homepage a second time on a non-canonical URL. Collapse
+# both spellings onto "/" directly, in one hop.
+/index.html /  301
+/index      /  301
+
 # --- Legacy WordPress pages -> current pages ------------------------------
 # Preserves Search Console ranking signal for indexed top pages after the
 # static-site migration. See Search Console "Top pages" for traffic data.
