@@ -189,6 +189,50 @@ Doesn't block `/assets/`, `/css/`, or `/js/` (no `Disallow` rules at all beyond 
 
 ---
 
+---
+
+## Search Console "Not found (404)" remediation
+
+Follow-up pass, prompted by a batch of 404s reported in Google Search Console. Every reported URL falls into one of four groups, and all four trace back to the WordPress → static-site migration.
+
+### Group 1 — the site was manufacturing its own 404s (root cause, now fixed)
+
+Five of the reported URLs were `/embed/` + a real page filename:
+
+```
+/embed/contact.html          /embed/get-started.html
+/embed/warehouse-services.html   /embed/safe-secure-art-storage.html
+/embed/small-local-moves-and-storage.html
+```
+
+These were never WordPress URLs. They are exactly the site's own nav targets, and they exist because **`404.html` and the shared header/footer in `js/main.js` used document-relative links** (`href="contact.html"`, `src="js/main.js"`). Cloudflare Pages serves `404.html` at whatever path was requested, so a crawl of the legacy WordPress `/embed/` endpoint resolved `contact.html` against `/embed/` and produced `/embed/contact.html` — a brand new, crawlable, linked 404. Each unknown URL minted a fresh set of them, and Googlebot followed them. (The same mechanism ran earlier against the homepage, back when unknown paths soft-404'd with the homepage's own content — see Category 6 — which is why the set includes nav items that only appear in the JS-injected header.)
+
+The same bug broke the 404 page itself: at any nested path, `css/style.css` and `js/main.js` also resolved below the bad path and 404'd, so the page rendered unstyled with no navigation.
+
+**Fixed** by emitting root-relative URLs from both files:
+- `404.html` — all `href`/`src`/`url()` references now start with `/`.
+- `js/main.js` — new `siteURL()` helper prefixes `/` on the `NAV`-driven links; literal header/footer links and asset `src`s updated in place. `data-nav-href` deliberately keeps the bare filename, because `markActive()` matches it against `body[data-page]`, which is unprefixed.
+
+This keeps the `.html` link scheme chosen earlier in the project — it changes relative → root-relative only, not the URL format.
+
+Verified with a local Cloudflare Pages emulator (`_redirects` + native `.html` stripping + `404.html`) and a headless-browser crawl. Before: each 404 exposed 6 nested crawlable links. After: 0, on every path tested, with the 404 page's CSS/JS loading correctly at any depth.
+
+### Group 2 — real legacy WordPress URLs (301'd)
+
+Old posts, feeds, oEmbed endpoints, and author/category archives that no longer exist. Each is now 301'd in `_redirects` to the page that actually covers its topic, not blanket-redirected to `/` (Google treats mass homepage redirects as soft 404s). Feeds go to the same destination as the post they belonged to. All redirects were confirmed to reach a `200` in a single hop.
+
+### Group 3 — `/cdn-cgi/l/email-protection`
+
+Not a site URL at all. Cloudflare's Email Obfuscation feature rewrites `mailto:` links at the edge into this endpoint, which is meant to be decoded by Cloudflare's own JavaScript rather than crawled. It is handled inside Cloudflare's edge *before* Pages routing, so a `_redirects` rule would never fire. Added a narrow `Disallow: /cdn-cgi/l/email-protection` to `robots.txt` — scoped to the one broken endpoint so `/cdn-cgi/scripts/` (including `email-decode.min.js`) stays crawlable and pages still render fully for Googlebot.
+
+### Group 4 — `/wp-content/uploads/*` (deliberately left as 404)
+
+Old WordPress media that was not carried over and has no equivalent. **404 is the correct response here** and no redirect was added: pointing image URLs at an HTML page would convert a batch of honest 404s into soft 404s, which is a worse state, not a better one. Google drops these on its own once they consistently fail to resolve. Nothing on the current site links to them.
+
+### Not verified live
+
+The redirects, `robots.txt` change, and 404-page fix were all verified against a local emulation of Cloudflare Pages' serving behavior, **not against the deployed domain** — this environment's network policy blocks outbound requests to `lasvegaswarehouse.com`. Worth a post-deploy `curl -I` spot-check on a few of the redirected URLs, and a "Validate Fix" on the affected Search Console reports once deployed.
+
 ## What this audit could not verify
 
 Everything below requires either live production access (the domain has since redeployed several times during this session, so "live" state may differ from what was tested) or external tools/APIs this environment doesn't have:

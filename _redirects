@@ -1,6 +1,5 @@
-# Legacy WordPress URLs -> current pages
-# Preserves Search Console ranking signal for indexed top pages after the
-# static-site migration. See Search Console "Top pages" for traffic data.
+# ==========================================================================
+# Redirects — Cloudflare Pages (_redirects)
 #
 # Targets are the extensionless form (e.g. /warehouse-services, not
 # /warehouse-services.html) because Cloudflare Pages itself 308-redirects
@@ -8,6 +7,14 @@
 # to that final destination avoids a redundant second hop through the .html
 # URL; it's also the URL declared canonical in each page's <head> and in
 # sitemap.xml, so this keeps redirects, canonicals, and the sitemap aligned.
+#
+# Static rules (no wildcard) are matched before dynamic ones, so the specific
+# rules below always win over the catch-alls at the bottom of each section.
+# ==========================================================================
+
+# --- Legacy WordPress pages -> current pages ------------------------------
+# Preserves Search Console ranking signal for indexed top pages after the
+# static-site migration. See Search Console "Top pages" for traffic data.
 /warehouse-services/               /warehouse-services               301
 /cross-docking/                    /cross-docking                    301
 /contact-us/                       /contact                          301
@@ -20,3 +27,68 @@
 /antiques-auctions/                /antiques-and-auctions            301
 /our-history/                      /our-history                      301
 /privacy-policy/                   /privacy-policy                   301
+
+# --- Legacy WordPress blog posts -> nearest current page ------------------
+# These posts were not carried over in the static rebuild. Each is pointed at
+# the page that actually covers its topic (not a blanket redirect to "/",
+# which Google treats as a soft 404). Both slash forms are listed because
+# WordPress published the trailing-slash version but inbound links vary.
+/alcohol-wine-whiskey/                          /warehouse-services                  301
+/alcohol-wine-whiskey                           /warehouse-services                  301
+/proper-professional-alcohol-and-liquor-storage/ /warehouse-services                 301
+/proper-professional-alcohol-and-liquor-storage  /warehouse-services                 301
+/warehouse-pallet-storage-racking/              /warehouse-services                  301
+/warehouse-pallet-storage-racking               /warehouse-services                  301
+/last-minute-holiday-shipping-las-vegas-nv/     /cross-docking                       301
+/last-minute-holiday-shipping-las-vegas-nv      /cross-docking                       301
+/2025-holiday-christmas-shipping-deadlines/     /cross-docking                       301
+/2025-holiday-christmas-shipping-deadlines      /cross-docking                       301
+/choosing-the-right-crate-design-materials/     /blog-fine-art-storage-tips          301
+/choosing-the-right-crate-design-materials      /blog-fine-art-storage-tips          301
+/renting-a-professional-warehouse-what-to-know/ /warehouse-storage-near-me-las-vegas 301
+/renting-a-professional-warehouse-what-to-know  /warehouse-storage-near-me-las-vegas 301
+
+# --- Legacy WordPress RSS feeds -------------------------------------------
+# WordPress exposed /feed/ on the site root and on every single post. Nothing
+# serves RSS on the static site, so each feed goes to the same destination as
+# the post it belonged to; the site-wide feed goes to the blog index.
+/feed/                                               /blog                                301
+/feed                                                /blog                                301
+/comments/feed/                                      /blog                                301
+/choosing-the-right-crate-design-materials/feed/     /blog-fine-art-storage-tips          301
+/warehouse-pallet-storage-racking/feed/              /warehouse-services                  301
+/2025-holiday-christmas-shipping-deadlines/feed/     /cross-docking                       301
+/proper-professional-alcohol-and-liquor-storage/feed/ /warehouse-services                 301
+/renting-a-professional-warehouse-what-to-know/feed/ /warehouse-storage-near-me-las-vegas 301
+
+# --- Legacy WordPress oEmbed endpoints ------------------------------------
+# WordPress served an iframe-able embed card at /embed/ (front page) and at
+# /{post}/embed/. The *.html entries below are not real WordPress URLs — they
+# were manufactured by a bug on this site's own 404 page, which used relative
+# links, so a crawl of /embed/ turned "contact.html" into /embed/contact.html
+# and so on. That bug is fixed (404.html and js/main.js now emit root-relative
+# URLs); these rules retire the URLs Google already has on file.
+/embed/                                     /                              301
+/embed/index.html                           /                              301
+/embed/contact.html                         /contact                       301
+/embed/get-started.html                     /get-started                   301
+/embed/warehouse-services.html              /warehouse-services            301
+/embed/safe-secure-art-storage.html         /safe-secure-art-storage       301
+/embed/convention-storage.html              /convention-storage            301
+/embed/cross-docking.html                   /cross-docking                 301
+/embed/small-local-moves-and-storage.html   /small-local-moves-and-storage 301
+/embed/*                                    /                              301
+
+# --- Legacy WordPress archives and custom post types ----------------------
+# Author, category, and tag archives have no equivalent on the static site;
+# the blog index is the closest real listing page. /project/* was a custom
+# post type used for work samples, which the services overview now covers.
+/author/*   /blog               301
+/category/* /blog               301
+/tag/*      /blog               301
+/project/*  /warehouse-services 301
+
+# Note: /wp-content/uploads/* is deliberately NOT redirected. Those media
+# files were not carried over and have no equivalent, so 404 is the correct,
+# honest response — redirecting images to an HTML page would just convert the
+# 404s into soft 404s. Google drops them on its own once they stop resolving.
