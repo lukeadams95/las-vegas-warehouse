@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
+# Cloudflare's Email Obfuscation feature rewrites every mailto: link at the
+# edge into /cdn-cgi/l/email-protection#<encoded>, which is meant to be
+# decoded by Cloudflare's own JavaScript, never crawled. Googlebot followed it
+# anyway and logged it as a 404 in Search Console. This path is handled inside
+# Cloudflare's edge, before Pages routing, so a _redirects rule would never
+# fire — disallowing it is the supported fix. Scoped to the one broken
+# endpoint so /cdn-cgi/scripts/ (email-decode.min.js and friends) stays
+# crawlable and pages still render fully for Googlebot.
+Disallow: /cdn-cgi/l/email-protection
+
 Sitemap: https://lasvegaswarehouse.com/sitemap.xml
