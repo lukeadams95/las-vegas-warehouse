@@ -54,19 +54,38 @@
 /choosing-the-right-crate-design-materials      /blog-fine-art-storage-tips          301
 /renting-a-professional-warehouse-what-to-know/ /warehouse-storage-near-me-las-vegas 301
 /renting-a-professional-warehouse-what-to-know  /warehouse-storage-near-me-las-vegas 301
+/advanced-crate-fabrication/                    /safe-secure-art-storage             301
+/advanced-crate-fabrication                     /safe-secure-art-storage             301
+/unlocking-efficiency-convention-and-trade-show-storage/ /convention-storage          301
+/unlocking-efficiency-convention-and-trade-show-storage  /convention-storage          301
 
 # --- Legacy WordPress RSS feeds -------------------------------------------
 # WordPress exposed /feed/ on the site root and on every single post. Nothing
 # serves RSS on the static site, so each feed goes to the same destination as
 # the post it belonged to; the site-wide feed goes to the blog index.
+#
+# Search Console reports these under "Excluded by 'noindex' tag" — the old
+# WordPress install served feeds with a noindex directive, and that verdict
+# stays on file until Google recrawls and gets a different answer. On the
+# static site they simply 404, which gives Google nothing to replace the
+# verdict with, so each one is redirected to the page that covers the post's
+# topic. The :slug catch-all closes out any post feed not named above; it
+# sits last because static rules are matched before dynamic ones, so every
+# topical mapping here still wins over it.
 /feed/                                               /blog                                301
 /feed                                                /blog                                301
 /comments/feed/                                      /blog                                301
-/choosing-the-right-crate-design-materials/feed/     /blog-fine-art-storage-tips          301
-/warehouse-pallet-storage-racking/feed/              /warehouse-services                  301
-/2025-holiday-christmas-shipping-deadlines/feed/     /cross-docking                       301
+/alcohol-wine-whiskey/feed/                          /warehouse-services                  301
 /proper-professional-alcohol-and-liquor-storage/feed/ /warehouse-services                 301
+/warehouse-pallet-storage-racking/feed/              /warehouse-services                  301
+/last-minute-holiday-shipping-las-vegas-nv/feed/     /cross-docking                       301
+/2025-holiday-christmas-shipping-deadlines/feed/     /cross-docking                       301
+/choosing-the-right-crate-design-materials/feed/     /blog-fine-art-storage-tips          301
+/advanced-crate-fabrication/feed/                    /safe-secure-art-storage             301
+/unlocking-efficiency-convention-and-trade-show-storage/feed/ /convention-storage         301
 /renting-a-professional-warehouse-what-to-know/feed/ /warehouse-storage-near-me-las-vegas 301
+/:slug/feed/                                         /blog                                301
+/:slug/feed                                          /blog                                301
 
 # --- Legacy WordPress oEmbed endpoints ------------------------------------
 # WordPress served an iframe-able embed card at /embed/ (front page) and at
@@ -90,6 +109,9 @@
 # Author, category, and tag archives have no equivalent on the static site;
 # the blog index is the closest real listing page. /project/* was a custom
 # post type used for work samples, which the services overview now covers.
+# The splat matches the trailing slash too, so the author archives Search
+# Console still lists as "Excluded by 'noindex' tag" (WordPress noindexed
+# them; e.g. /author/drwebinsteingmail-com/) are covered by /author/* below.
 /author/*   /blog               301
 /category/* /blog               301
 /tag/*      /blog               301
