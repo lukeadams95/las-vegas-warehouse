@@ -693,6 +693,8 @@ button { font-family: inherit; cursor: pointer; }
 .form-status { font-size: 0.82rem; margin-top: var(--space-2); padding: var(--space-2) var(--space-3); border-radius: 4px; display: none; }
 .form-status.show { display: block; }
 .form-status.success { background: rgba(52,168,83,0.15); color: #cdeed6; }
+.form-status.error { background: rgba(237,10,4,0.15); color: #f6c9c7; }
+.cf-turnstile { min-height: 65px; }
 .form-note { font-size: 0.72rem; color: var(--color-neutral-300); margin-top: var(--space-2); }
 
 .form-panel-light { background: var(--color-surface); border-radius: var(--radius-card); padding: var(--space-6); }

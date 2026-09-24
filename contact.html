@@ -56,6 +56,7 @@ function gtag_report_conversion(url) {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all';this.onload=null;">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script type="text/javascript">
     (function(k) {
         if (window.location.hostname !== 'las-vegas-warehouse.pages.dev') return;
@@ -176,6 +177,7 @@ function gtag_report_conversion(url) {
           <div class="field"><label>Email</label><input class="field-dark" type="email" name="email" placeholder="Your Email" required></div>
           <div class="field"><label>Subject</label><input class="field-dark" type="text" name="subject" placeholder="Subject"></div>
           <div class="field"><label>Your Message</label><textarea class="field-dark" rows="4" name="message" placeholder="Your Message" required></textarea></div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAFAYB_sA_veRyItQ" data-theme="dark" data-size="flexible"></div>
           <button type="submit" class="btn btn-primary btn-block"><span>Send Message</span> <span aria-hidden="true">&rarr;</span></button>
         </form>
       </div>

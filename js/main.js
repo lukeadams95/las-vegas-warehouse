@@ -523,6 +523,9 @@
   // Extensionless: Cloudflare Pages 308-redirects /thank-you.html here anyway,
   // so navigating straight to the final URL skips a redundant redirect hop.
   var THANK_YOU_PATH = "/thank-you";
+  // Hidden input the Cloudflare Turnstile widget adds to each form. Its token
+  // is verified server-side by send-lead-notification (TURNSTILE_SECRET_KEY).
+  var TURNSTILE_FIELD = "cf-turnstile-response";
 
   /* ---- Lead source attribution ----
      Captured once per browser session (first-touch: an ad click that lands,
@@ -592,6 +595,7 @@
     if (attribution.source) data.source = attribution.source;
     if (attribution.campaign) data.campaign = attribution.campaign;
     new FormData(form).forEach(function (value, key) {
+      if (key === TURNSTILE_FIELD) return;
       if (typeof value === "string" && value.trim() !== "") {
         data[key] = value;
       }
@@ -599,11 +603,14 @@
     return data;
   }
 
-  function sendLeadNotification(data) {
+  function sendLeadNotification(data, turnstileToken) {
+    var payload = {};
+    Object.keys(data).forEach(function (key) { payload[key] = data[key]; });
+    payload[TURNSTILE_FIELD] = turnstileToken;
     fetch(LEAD_NOTIFICATION_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       keepalive: true,
     })
       .then(function (res) {
@@ -629,6 +636,18 @@
     });
   }
 
+  function showFormError(form, message) {
+    var status = form.querySelector(".form-status");
+    if (!status) {
+      status = document.createElement("div");
+      status.className = "form-status";
+      status.setAttribute("role", "alert");
+      form.appendChild(status);
+    }
+    status.textContent = message;
+    status.classList.add("show", "error");
+  }
+
   function wireForms() {
     document.querySelectorAll("[data-contact-form]").forEach(function (form) {
       form.addEventListener("submit", function (e) {
@@ -637,11 +656,17 @@
           form.reportValidity();
           return;
         }
+        var tokenInput = form.querySelector('[name="' + TURNSTILE_FIELD + '"]');
+        var turnstileToken = tokenInput ? tokenInput.value : "";
+        if (!turnstileToken) {
+          showFormError(form, "Please complete the security check before submitting.");
+          return;
+        }
         var formData = serializeForm(form);
 
         // Fire in parallel; neither call blocks the other or the redirect below.
         fireExistingWebhook(form, formData);
-        sendLeadNotification(formData);
+        sendLeadNotification(formData, turnstileToken);
 
         window.location.href = THANK_YOU_PATH;
       });

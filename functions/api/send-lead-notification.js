@@ -1,9 +1,13 @@
 // Cloudflare Pages Function
 // Route: POST /api/send-lead-notification
 // Sends a lead notification email via the Resend API. Requires the
-// RESEND_API_KEY secret to be configured in the Cloudflare Pages project.
+// RESEND_API_KEY and TURNSTILE_SECRET_KEY secrets to be configured in the
+// Cloudflare Pages project. The request must carry a valid Cloudflare
+// Turnstile token in the "cf-turnstile-response" field.
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
+const TURNSTILE_VERIFY_ENDPOINT = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const TURNSTILE_FIELD = "cf-turnstile-response";
 
 const FROM_EMAIL = "Las Vegas Warehouse <leads@newleadrelay.com>";
 const TO_EMAILS = [
@@ -90,6 +94,16 @@ function buildEmailHtml(fields) {
   </div>`;
 }
 
+async function verifyTurnstile(token, secret, ip) {
+  const body = new FormData();
+  body.append("secret", secret);
+  body.append("response", token);
+  if (ip) body.append("remoteip", ip);
+  const res = await fetch(TURNSTILE_VERIFY_ENDPOINT, { method: "POST", body });
+  const outcome = await res.json().catch(() => ({}));
+  return outcome;
+}
+
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: CORS_HEADERS });
 }
@@ -100,6 +114,37 @@ export async function onRequestPost({ request, env }) {
     fields = await request.json();
   } catch {
     return jsonResponse({ error: "Invalid JSON body" }, 400);
+  }
+
+  if (!fields || typeof fields !== "object" || Array.isArray(fields)) {
+    return jsonResponse({ error: "Invalid JSON body" }, 400);
+  }
+
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY;
+  if (!turnstileSecret) {
+    console.error("send-lead-notification: TURNSTILE_SECRET_KEY is not configured");
+    return jsonResponse({ error: "Verification service is not configured" }, 500);
+  }
+
+  const turnstileToken = String(fields[TURNSTILE_FIELD] || "");
+  delete fields[TURNSTILE_FIELD];
+  if (!turnstileToken) {
+    return jsonResponse({ error: "Missing security check token" }, 400);
+  }
+
+  try {
+    const outcome = await verifyTurnstile(
+      turnstileToken,
+      turnstileSecret,
+      request.headers.get("CF-Connecting-IP")
+    );
+    if (!outcome.success) {
+      console.error("send-lead-notification: Turnstile verification failed", outcome["error-codes"]);
+      return jsonResponse({ error: "Security check failed" }, 403);
+    }
+  } catch (err) {
+    console.error("send-lead-notification: error calling Turnstile siteverify", err);
+    return jsonResponse({ error: "Security check could not be verified" }, 502);
   }
 
   const name = String(fields.name || "").trim();
