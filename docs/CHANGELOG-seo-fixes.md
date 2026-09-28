@@ -20,6 +20,7 @@ Every change is a git commit. There's no database or `.htaccess`, so git history
 | 6 | Removed `Disallow: /cdn-cgi/l/email-protection` | `robots.txt` | `5c74d9f` | `git revert 5c74d9f` |
 | 7 | `<lastmod>` added to all 20 sitemap URLs, using each page file's last commit date | `sitemap.xml` | `14fa20d` | `git revert 14fa20d` |
 | 8 | This changelog and `redirect-map.csv` | `docs/` | (this commit) | `git revert` this commit |
+| 9 | `/warehouse-services` impressions-drop audit (read-only, no site change; awaiting approval) | `docs/seo-warehouse-services-audit.md` | (see git log) | `git revert` that commit |
 
 **Redirects added in change 5:**
 
