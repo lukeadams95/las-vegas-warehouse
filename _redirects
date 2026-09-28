@@ -94,7 +94,12 @@
 # links, so a crawl of /embed/ turned "contact.html" into /embed/contact.html
 # and so on. That bug is fixed (404.html and js/main.js now emit root-relative
 # URLs); these rules retire the URLs Google already has on file.
-/embed/                                     /                              301
+#
+# The bare /embed/ endpoint and any other /embed/* URL are deliberately NOT
+# redirected: they have no topical equivalent, and sending them to "/" is a
+# homepage dump Google treats as a soft 404. They fall through to 404.html.
+# /embed/index.html is kept because it was the manufactured "Home" nav link,
+# so the homepage is its genuine counterpart.
 /embed/index.html                           /                              301
 /embed/contact.html                         /contact                       301
 /embed/get-started.html                     /get-started                   301
@@ -103,7 +108,6 @@
 /embed/convention-storage.html              /convention-storage            301
 /embed/cross-docking.html                   /cross-docking                 301
 /embed/small-local-moves-and-storage.html   /small-local-moves-and-storage 301
-/embed/*                                    /                              301
 
 # --- Legacy WordPress archives and custom post types ----------------------
 # Author, category, and tag archives have no equivalent on the static site;
