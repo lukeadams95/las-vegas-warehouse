@@ -1,0 +1,12 @@
+# ==========================================================================
+# Response headers — Cloudflare Pages (_headers)
+# ==========================================================================
+
+# --- Internal Markdown docs -----------------------------------------------
+# The site is published from the repo root, so audit/working notes committed
+# as *.md are served as public plain-text URLs. Google extracts URL-like
+# strings from them (the likely source of the literal /wp-content/uploads/*
+# 404 in Search Console) and can index their contents. noindex keeps them out
+# of search results until the docs are moved outside the published folder.
+/*.md
+  X-Robots-Tag: noindex

@@ -25,6 +25,7 @@
 /warehouse-services/               /warehouse-services               301
 /cross-docking/                    /cross-docking                    301
 /contact-us/                       /contact                          301
+/contact-us                        /contact                          301
 /fine-art-installation-and-removal/ /fine-art-installation-removal   301
 /safe-secure-art-storage/          /safe-secure-art-storage          301
 /get-started/                      /get-started                      301
@@ -58,6 +59,10 @@
 /advanced-crate-fabrication                     /safe-secure-art-storage             301
 /unlocking-efficiency-convention-and-trade-show-storage/ /convention-storage          301
 /unlocking-efficiency-convention-and-trade-show-storage  /convention-storage          301
+/custom-wine-storage/                           /warehouse-services                  301
+/custom-wine-storage                            /warehouse-services                  301
+/art-courier-transportation-examples/           /fine-art-installation-removal       301
+/art-courier-transportation-examples            /fine-art-installation-removal       301
 
 # --- Legacy WordPress RSS feeds -------------------------------------------
 # WordPress exposed /feed/ on the site root and on every single post. Nothing
@@ -84,6 +89,48 @@
 /advanced-crate-fabrication/feed/                    /safe-secure-art-storage             301
 /unlocking-efficiency-convention-and-trade-show-storage/feed/ /convention-storage         301
 /renting-a-professional-warehouse-what-to-know/feed/ /warehouse-storage-near-me-las-vegas 301
+/custom-wine-storage/feed/                           /warehouse-services                  301
+/art-courier-transportation-examples/feed/           /fine-art-installation-removal       301
+#
+# Feeds of pages that are still live go back to the page itself, in one hop.
+/warehouse-services/feed/                          /warehouse-services 301
+/warehouse-services/feed                           /warehouse-services 301
+/safe-secure-art-storage/feed/                     /safe-secure-art-storage 301
+/safe-secure-art-storage/feed                      /safe-secure-art-storage 301
+/fine-art-installation-removal/feed/               /fine-art-installation-removal 301
+/fine-art-installation-removal/feed                /fine-art-installation-removal 301
+/antiques-and-auctions/feed/                       /antiques-and-auctions 301
+/antiques-and-auctions/feed                        /antiques-and-auctions 301
+/convention-storage/feed/                          /convention-storage 301
+/convention-storage/feed                           /convention-storage 301
+/cross-docking/feed/                               /cross-docking 301
+/cross-docking/feed                                /cross-docking 301
+/small-local-moves-and-storage/feed/               /small-local-moves-and-storage 301
+/small-local-moves-and-storage/feed                /small-local-moves-and-storage 301
+/get-started/feed/                                 /get-started 301
+/get-started/feed                                  /get-started 301
+/blog/feed/                                        /blog 301
+/blog/feed                                         /blog 301
+/blog-types-of-warehouse-storage-facilities/feed/  /blog-types-of-warehouse-storage-facilities 301
+/blog-types-of-warehouse-storage-facilities/feed   /blog-types-of-warehouse-storage-facilities 301
+/blog-what-is-warehouse-storage/feed/              /blog-what-is-warehouse-storage 301
+/blog-what-is-warehouse-storage/feed               /blog-what-is-warehouse-storage 301
+/warehouse-storage-near-me-las-vegas/feed/         /warehouse-storage-near-me-las-vegas 301
+/warehouse-storage-near-me-las-vegas/feed          /warehouse-storage-near-me-las-vegas 301
+/blog-choosing-warehouse-storage/feed/             /blog-choosing-warehouse-storage 301
+/blog-choosing-warehouse-storage/feed              /blog-choosing-warehouse-storage 301
+/blog-fine-art-storage-tips/feed/                  /blog-fine-art-storage-tips 301
+/blog-fine-art-storage-tips/feed                   /blog-fine-art-storage-tips 301
+/blog-las-vegas-fulfillment-hub/feed/              /blog-las-vegas-fulfillment-hub 301
+/blog-las-vegas-fulfillment-hub/feed               /blog-las-vegas-fulfillment-hub 301
+/our-history/feed/                                 /our-history 301
+/our-history/feed                                  /our-history 301
+/careers/feed/                                     /careers 301
+/careers/feed                                      /careers 301
+/contact/feed/                                     /contact 301
+/contact/feed                                      /contact 301
+/privacy-policy/feed/                              /privacy-policy 301
+/privacy-policy/feed                               /privacy-policy 301
 /:slug/feed/                                         /blog                                301
 /:slug/feed                                          /blog                                301
 
@@ -94,7 +141,12 @@
 # links, so a crawl of /embed/ turned "contact.html" into /embed/contact.html
 # and so on. That bug is fixed (404.html and js/main.js now emit root-relative
 # URLs); these rules retire the URLs Google already has on file.
-/embed/                                     /                              301
+#
+# The bare /embed/ endpoint and any other /embed/* URL are deliberately NOT
+# redirected: they have no topical equivalent, and sending them to "/" is a
+# homepage dump Google treats as a soft 404. They fall through to 404.html.
+# /embed/index.html is kept because it was the manufactured "Home" nav link,
+# so the homepage is its genuine counterpart.
 /embed/index.html                           /                              301
 /embed/contact.html                         /contact                       301
 /embed/get-started.html                     /get-started                   301
@@ -103,21 +155,36 @@
 /embed/convention-storage.html              /convention-storage            301
 /embed/cross-docking.html                   /cross-docking                 301
 /embed/small-local-moves-and-storage.html   /small-local-moves-and-storage 301
-/embed/*                                    /                              301
 
 # --- Legacy WordPress archives and custom post types ----------------------
 # Author, category, and tag archives have no equivalent on the static site;
 # the blog index is the closest real listing page. /project/* was a custom
-# post type used for work samples, which the services overview now covers.
+# post type used for work samples, which the services overview now covers;
+# the two projects listed below have a closer topical page and win over
+# the /project/* catch-all because static rules match first.
 # The splat matches the trailing slash too, so the author archives Search
 # Console still lists as "Excluded by 'noindex' tag" (WordPress noindexed
 # them; e.g. /author/drwebinsteingmail-com/) are covered by /author/* below.
 /author/*   /blog               301
 /category/* /blog               301
 /tag/*      /blog               301
+/project/vintage-slot-machines-games/       /antiques-and-auctions   301
+/project/vintage-slot-machines-games        /antiques-and-auctions   301
+/project/vintage-slot-machines-games/feed/  /antiques-and-auctions   301
+/project/leonardo-davinci/                  /safe-secure-art-storage 301
+/project/leonardo-davinci                   /safe-secure-art-storage 301
+/project/leonardo-davinci/feed/             /safe-secure-art-storage 301
 /project/*  /warehouse-services 301
 
 # Note: /wp-content/uploads/* is deliberately NOT redirected. Those media
 # files were not carried over and have no equivalent, so 404 is the correct,
 # honest response — redirecting images to an HTML page would just convert the
 # 404s into soft 404s. Google drops them on its own once they stop resolving.
+
+# --- Legacy WordPress sitemaps ---------------------------------------------
+# WordPress (core, Yoast, Rank Math) published these; Search Console may
+# still have them on file. The static site has one hand-maintained sitemap.
+/sitemap_index.xml  /sitemap.xml 301
+/wp-sitemap.xml     /sitemap.xml 301
+/page-sitemap.xml   /sitemap.xml 301
+/post-sitemap.xml   /sitemap.xml 301
