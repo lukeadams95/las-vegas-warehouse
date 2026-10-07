@@ -111,6 +111,8 @@
 /get-started/feed                                  /get-started 301
 /blog/feed/                                        /blog 301
 /blog/feed                                         /blog 301
+/blog-pallet-bulk-warehouse-storage/feed/          /blog-pallet-bulk-warehouse-storage 301
+/blog-pallet-bulk-warehouse-storage/feed           /blog-pallet-bulk-warehouse-storage 301
 /blog-warehouse-storage-facility-types/feed/       /blog-warehouse-storage-facility-types 301
 /blog-warehouse-storage-facility-types/feed        /blog-warehouse-storage-facility-types 301
 /blog-types-of-warehouse-storage-facilities/feed/  /blog-types-of-warehouse-storage-facilities 301
