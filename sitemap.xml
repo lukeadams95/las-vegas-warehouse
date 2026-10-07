@@ -56,9 +56,15 @@
   </url>
   <url>
     <loc>https://lasvegaswarehouse.com/blog</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lasvegaswarehouse.com/blog-pallet-bulk-warehouse-storage</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://lasvegaswarehouse.com/blog-warehouse-storage-facility-types</loc>
