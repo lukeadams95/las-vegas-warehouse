@@ -26,7 +26,9 @@ const KNOWN_LABELS = {
   name: "Name",
   email: "Email",
   phone: "Phone",
+  service: "Service",
   message: "Message",
+  subject: "Subject",
 };
 
 function jsonResponse(body, status) {
