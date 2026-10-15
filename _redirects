@@ -19,6 +19,13 @@
 /index.html /  301
 /index      /  301
 
+# --- Duplicate blog consolidation (audit) ---------------------------------
+# Two near-identical "types of warehouse storage facilities" posts. Keep the
+# "How to Choose" URL as canonical; 301 the duplicate.
+/blog-types-of-warehouse-storage-facilities     /blog-warehouse-storage-facility-types  301
+/blog-types-of-warehouse-storage-facilities/    /blog-warehouse-storage-facility-types  301
+/blog-types-of-warehouse-storage-facilities.html /blog-warehouse-storage-facility-types 301
+
 # --- Legacy WordPress pages -> current pages ------------------------------
 # Preserves Search Console ranking signal for indexed top pages after the
 # static-site migration. See Search Console "Top pages" for traffic data.
@@ -117,8 +124,8 @@
 /blog-pallet-bulk-warehouse-storage/feed           /blog-pallet-bulk-warehouse-storage 301
 /blog-warehouse-storage-facility-types/feed/       /blog-warehouse-storage-facility-types 301
 /blog-warehouse-storage-facility-types/feed        /blog-warehouse-storage-facility-types 301
-/blog-types-of-warehouse-storage-facilities/feed/  /blog-types-of-warehouse-storage-facilities 301
-/blog-types-of-warehouse-storage-facilities/feed   /blog-types-of-warehouse-storage-facilities 301
+/blog-types-of-warehouse-storage-facilities/feed/  /blog-warehouse-storage-facility-types 301
+/blog-types-of-warehouse-storage-facilities/feed   /blog-warehouse-storage-facility-types 301
 /blog-what-is-warehouse-storage/feed/              /blog-what-is-warehouse-storage 301
 /blog-what-is-warehouse-storage/feed               /blog-what-is-warehouse-storage 301
 /warehouse-storage-near-me-las-vegas/feed/         /warehouse-storage-near-me-las-vegas 301

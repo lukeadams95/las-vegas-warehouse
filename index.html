@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WM135GSMP0"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Deferred Google tag (GA4 + Ads): stub + idle load so LCP is not blocked. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WM135GSMP0');
-</script>
-<!-- Event snippet for Click to call (1) conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'click_to_call', {
+      event_category: 'engagement',
+      event_label: 'phone'
+    });
+    gtag('event', 'conversion', {
       'send_to': 'AW-18411956292/FB06CI-7-ugcEMTQwMtE',
       'value': 1.0,
       'currency': 'USD',
       'event_callback': callback
-  });
-  return false;
-}
+    });
+    return false;
+  }
+  (function () {
+    function loadGtag() {
+      if (window.__gtagLoading) return;
+      window.__gtagLoading = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-WM135GSMP0';
+      s.onload = function () {
+        gtag('js', new Date());
+        gtag('config', 'G-WM135GSMP0');
+        gtag('config', 'AW-18411956292');
+        window.__gtagReady = true;
+        window.dispatchEvent(new Event('gtag-ready'));
+      };
+      document.head.appendChild(s);
+    }
+    function schedule() {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGtag, { timeout: 3500 });
+      } else {
+        setTimeout(loadGtag, 1);
+      }
+    }
+    if (document.readyState === 'complete') schedule();
+    else window.addEventListener('load', schedule);
+  })();
 </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="preload" as="image" href="/images/home-hero.webp" fetchpriority="high">
 <title>Las Vegas Warehouse | Storage, Fulfillment &amp; 3PL Logistics</title>
 <meta name="description" content="Las Vegas Warehouse provides short and long-term storage, fine art handling, convention storage, cross-docking, and 3PL fulfillment in Las Vegas, NV.">
@@ -56,7 +79,6 @@ function gtag_report_conversion(url) {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all';this.onload=null;">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script type="text/javascript">
     (function(k) {
         if (window.location.hostname !== 'las-vegas-warehouse.pages.dev') return;
@@ -125,7 +147,7 @@ function gtag_report_conversion(url) {
 <main id="main-content">
 
   <!-- Hero -->
-  <section class="hero-video" style="background-image:url('images/home-hero.webp');">
+  <section class="hero-video" style="background-image:url('/images/home-hero.webp');">
     <div class="video-scrim"></div>
     <div class="hero-row">
       <div class="hero-copy">
@@ -168,13 +190,15 @@ function gtag_report_conversion(url) {
           <input class="field-dark" type="text" name="name" placeholder="Your Name" required>
           <input class="field-dark" type="tel" name="phone" placeholder="Phone Number" required>
           <input class="field-dark" type="email" name="email" placeholder="Email Address" required>
-          <select class="field-dark" name="service" aria-label="Select a Service">
-            <option>Select a Service</option>
-            <option>Art Storage</option>
-            <option>Warehouse Storage</option>
-            <option>Pack / Ship / Store</option>
+          <select class="field-dark" name="service" aria-label="Select a Service" required>
+            <option value="" selected disabled>Select a Service</option>
+            <option value="Art Storage">Art Storage</option>
+            <option value="Warehouse Storage">Warehouse Storage</option>
+            <option value="Pack / Ship / Store">Pack / Ship / Store</option>
+            <option value="Convention Storage">Convention Storage</option>
+            <option value="Cross Docking">Cross Docking</option>
+            <option value="Other">Other</option>
           </select>
-          <a href="#" class="promo-link">Promo Code?</a>
           <div class="cf-turnstile" data-sitekey="0x4AAAAAAFAYB_sA_veRyItQ" data-theme="dark" data-size="flexible"></div>
           <button type="submit" class="btn btn-primary btn-block"><span>Request Quote</span> <span aria-hidden="true">&rarr;</span></button>
         </form>
@@ -188,16 +212,16 @@ function gtag_report_conversion(url) {
       <h2 class="center" style="margin-bottom:var(--space-6);">We're Proud Of Our <span class="accent">Clients</span>!</h2>
       <div class="logo-marquee" data-logo-marquee>
         <div class="logo-marquee-track">
-          <figure><img loading="lazy" src="assets/client-redbull.webp" alt="Red Bull" draggable="false"></figure>
-          <figure><img loading="lazy" src="assets/client-wynn.webp" alt="Wynn Las Vegas" draggable="false"></figure>
-          <figure><img loading="lazy" src="assets/client-canes.webp" alt="Raising Cane's" draggable="false"></figure>
-          <figure><img loading="lazy" src="images/client-logo-ricks-restorations.webp" alt="Rick's Restorations" draggable="false"></figure>
-          <figure><img loading="lazy" src="images/client-logo-lv-crating.webp" alt="Las Vegas Crating &amp; Logistics" draggable="false"></figure>
-          <figure aria-hidden="true"><img loading="lazy" src="assets/client-redbull.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img loading="lazy" src="assets/client-wynn.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img loading="lazy" src="assets/client-canes.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img loading="lazy" src="images/client-logo-ricks-restorations.webp" alt="" draggable="false"></figure>
-          <figure aria-hidden="true"><img loading="lazy" src="images/client-logo-lv-crating.webp" alt="" draggable="false"></figure>
+          <figure><img loading="lazy" src="assets/client-redbull.webp" alt="Red Bull" width="180" height="60" draggable="false"></figure>
+          <figure><img loading="lazy" src="assets/client-wynn.webp" alt="Wynn Las Vegas" width="180" height="60" draggable="false"></figure>
+          <figure><img loading="lazy" src="assets/client-canes.webp" alt="Raising Cane's" width="180" height="60" draggable="false"></figure>
+          <figure><img loading="lazy" src="images/client-logo-ricks-restorations.webp" alt="Rick's Restorations" width="180" height="60" draggable="false"></figure>
+          <figure><img loading="lazy" src="images/client-logo-lv-crating.webp" alt="Las Vegas Crating &amp; Logistics" width="180" height="60" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="assets/client-redbull.webp" alt="" width="180" height="60" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="assets/client-wynn.webp" alt="" width="180" height="60" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="assets/client-canes.webp" alt="" width="180" height="60" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="images/client-logo-ricks-restorations.webp" alt="" width="180" height="60" draggable="false"></figure>
+          <figure aria-hidden="true"><img loading="lazy" src="images/client-logo-lv-crating.webp" alt="" width="180" height="60" draggable="false"></figure>
         </div>
       </div>
     </div>

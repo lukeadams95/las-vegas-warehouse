@@ -86,7 +86,7 @@ h3 { font-size: 1.25rem; }
 p { margin: 0 0 var(--space-3); color: var(--color-text); }
 a { color: var(--color-accent); text-underline-offset: 3px; }
 a:hover { color: var(--color-accent-700); }
-img { display: block; max-width: 100%; }
+img { display: block; max-width: 100%; height: auto; }
 ul { margin: 0; padding: 0; list-style: none; }
 button { font-family: inherit; cursor: pointer; }
 :focus { outline: none; }
@@ -168,6 +168,14 @@ button { font-family: inherit; cursor: pointer; }
 .section-head ~ p { text-align: left; }
 
 .accent { color: var(--color-accent); }
+/* #ED0A04 on charcoal fails WCAG (~2.3:1). Brighter accent text on dark surfaces (≥3:1). */
+.section-alt .accent,
+.section-dark .accent,
+.hero-dark .accent,
+.hero-video .accent,
+.cta-band .accent {
+  color: #ff7a72;
+}
 
 /* ---- Buttons ---- */
 .btn {
@@ -319,9 +327,17 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero-dark p.lead { color: var(--color-neutral-200); font-size: 1rem; line-height: 1.6; max-width: 620px; margin-bottom: var(--space-6); }
 
+/* Reserve header height before JS injects nav — cuts CLS from empty #site-header. */
+#site-header { min-height: 108px; }
+@media (max-width: 900px) {
+  #site-header { min-height: 64px; }
+}
+
 .hero-video {
   position: relative; height: calc(100vh - 108px); min-height: 600px; display: flex; flex-direction: column; overflow: hidden;
   background-size: cover; background-position: center;
+  /* Contain layout: stable block size before background image paints (home-hero 1413×1113). */
+  contain: layout;
 }
 .hero-video .video-scrim {
   position: absolute; inset: 0; z-index: 1;
@@ -772,7 +788,7 @@ button { font-family: inherit; cursor: pointer; }
   .split, .split.reverse { grid-template-columns: 1fr; }
   .split .split-media { order: -1; }
   .location-grid { grid-template-columns: 1fr; }
-  .hero-video { height: auto; min-height: 0; overflow: visible; }
+  .hero-video { height: auto; min-height: 0; aspect-ratio: auto; overflow: visible; }
   .hero-video .hero-row { flex-direction: column; align-items: stretch; padding-top: var(--space-6); padding-bottom: var(--space-6); }
   .quote-card { width: 100%; }
   .grid-3, .grid-2 { grid-template-columns: 1fr; }

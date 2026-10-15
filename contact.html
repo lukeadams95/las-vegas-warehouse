@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WM135GSMP0"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Deferred Google tag (GA4 + Ads): stub + idle load so LCP is not blocked. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WM135GSMP0');
-</script>
-<!-- Event snippet for Click to call (1) conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'click_to_call', {
+      event_category: 'engagement',
+      event_label: 'phone'
+    });
+    gtag('event', 'conversion', {
       'send_to': 'AW-18411956292/FB06CI-7-ugcEMTQwMtE',
       'value': 1.0,
       'currency': 'USD',
       'event_callback': callback
-  });
-  return false;
-}
+    });
+    return false;
+  }
+  (function () {
+    function loadGtag() {
+      if (window.__gtagLoading) return;
+      window.__gtagLoading = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-WM135GSMP0';
+      s.onload = function () {
+        gtag('js', new Date());
+        gtag('config', 'G-WM135GSMP0');
+        gtag('config', 'AW-18411956292');
+        window.__gtagReady = true;
+        window.dispatchEvent(new Event('gtag-ready'));
+      };
+      document.head.appendChild(s);
+    }
+    function schedule() {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGtag, { timeout: 3500 });
+      } else {
+        setTimeout(loadGtag, 1);
+      }
+    }
+    if (document.readyState === 'complete') schedule();
+    else window.addEventListener('load', schedule);
+  })();
 </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="preload" as="image" href="/images/home-hero.webp" fetchpriority="high">
 <title>Contact Us | Las Vegas Warehouse</title>
 <meta name="description" content="Contact Las Vegas Warehouse for storage, fulfillment, and 3PL logistics quotes. Call 1-800-806-4119 or visit us at 4640 Polaris Ave, Las Vegas, NV.">
@@ -56,7 +79,6 @@ function gtag_report_conversion(url) {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all';this.onload=null;">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script type="text/javascript">
     (function(k) {
         if (window.location.hostname !== 'las-vegas-warehouse.pages.dev') return;
@@ -173,10 +195,22 @@ function gtag_report_conversion(url) {
       </div>
       <div class="form-panel">
         <form data-contact-form>
-          <div class="field"><label>Name</label><input class="field-dark" type="text" name="name" placeholder="Your Name" required></div>
-          <div class="field"><label>Email</label><input class="field-dark" type="email" name="email" placeholder="Your Email" required></div>
-          <div class="field"><label>Subject</label><input class="field-dark" type="text" name="subject" placeholder="Subject"></div>
-          <div class="field"><label>Your Message</label><textarea class="field-dark" rows="4" name="message" placeholder="Your Message" required></textarea></div>
+          <div class="field"><label for="c-name">Name *</label><input id="c-name" class="field-dark" type="text" name="name" placeholder="Your Name" autocomplete="name" required></div>
+          <div class="field"><label for="c-phone">Phone *</label><input id="c-phone" class="field-dark" type="tel" name="phone" placeholder="Phone Number" autocomplete="tel" required></div>
+          <div class="field"><label for="c-email">Email *</label><input id="c-email" class="field-dark" type="email" name="email" placeholder="Your Email" autocomplete="email" required></div>
+          <div class="field"><label for="c-service">Service Needed</label>
+            <select id="c-service" class="field-dark" name="service">
+              <option value="" selected>Select a Service (optional)</option>
+              <option value="Art Storage">Art Storage</option>
+              <option value="Warehouse Storage">Warehouse Storage</option>
+              <option value="Pack / Ship / Store">Pack / Ship / Store</option>
+              <option value="Convention Storage">Convention Storage</option>
+              <option value="Cross Docking">Cross Docking</option>
+              <option value="Fine Art Installation / Removal">Fine Art Installation / Removal</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field"><label for="c-message">Your Message *</label><textarea id="c-message" class="field-dark" rows="4" name="message" placeholder="Your Message" required></textarea></div>
           <div class="cf-turnstile" data-sitekey="0x4AAAAAAFAYB_sA_veRyItQ" data-theme="dark" data-size="flexible"></div>
           <button type="submit" class="btn btn-primary btn-block"><span>Send Message</span> <span aria-hidden="true">&rarr;</span></button>
         </form>

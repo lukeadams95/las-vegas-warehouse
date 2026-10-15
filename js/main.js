@@ -513,12 +513,10 @@
   }
 
   /* ---- Forms ----
-     On submit, any existing lead webhook (e.g. GoHighLevel) keeps firing as
-     before. Alongside it — never instead of it — we also POST the form data
-     to the send-lead-notification function so the team gets an email alert.
-     Both calls run in parallel and are fire-and-forget: a failure on either
-     one is logged only and never blocks navigation. keepalive lets them
-     finish even though we navigate to /thank-you.html right after firing. */
+     On submit we await /api/send-lead-notification. Thank-you (and Ads lead
+     conversion on that page) only happen after a real OK. Failures keep the
+     visitor on the form with a call-us error. An optional data-webhook-url
+     still fires in parallel but does not gate success. */
   var LEAD_NOTIFICATION_ENDPOINT = "/api/send-lead-notification";
   // Extensionless: Cloudflare Pages 308-redirects /thank-you.html here anyway,
   // so navigating straight to the final URL skips a redundant redirect hop.
@@ -526,6 +524,8 @@
   // Hidden input the Cloudflare Turnstile widget adds to each form. Its token
   // is verified server-side by send-lead-notification (TURNSTILE_SECRET_KEY).
   var TURNSTILE_FIELD = "cf-turnstile-response";
+  var TURNSTILE_SITE_KEY = "0x4AAAAAAFAYB_sA_veRyItQ";
+  var FORM_ERROR_PHONE = "Something went wrong sending your message. Please call us at " + PHONE + " and we'll help right away.";
 
   /* ---- Lead source attribution ----
      Captured once per browser session (first-touch: an ad click that lands,
@@ -607,20 +607,61 @@
     var payload = {};
     Object.keys(data).forEach(function (key) { payload[key] = data[key]; });
     payload[TURNSTILE_FIELD] = turnstileToken;
-    fetch(LEAD_NOTIFICATION_ENDPOINT, {
+    return fetch(LEAD_NOTIFICATION_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-      keepalive: true,
-    })
-      .then(function (res) {
-        if (!res.ok) {
-          console.error("Lead notification email failed with status " + res.status);
-        }
-      })
-      .catch(function (err) {
-        console.error("Lead notification email failed:", err);
-      });
+    }).then(function (res) {
+      if (!res.ok) {
+        console.error("Lead notification email failed with status " + res.status);
+        throw new Error("Lead notification failed (" + res.status + ")");
+      }
+      return res;
+    });
+  }
+
+  function fireGenerateLead() {
+    try {
+      if (typeof gtag === "function") {
+        gtag("event", "generate_lead", {
+          event_category: "engagement",
+          event_label: "contact_form",
+        });
+      }
+    } catch (e) {}
+  }
+
+  var turnstileLoadStarted = false;
+  function ensureTurnstileLoaded() {
+    if (document.querySelector("script[data-turnstile]")) {
+      turnstileLoadStarted = true;
+      return;
+    }
+    if (turnstileLoadStarted) return;
+    turnstileLoadStarted = true;
+    var script = document.createElement("script");
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+    script.async = true;
+    script.defer = true;
+    script.dataset.turnstile = "";
+    document.head.appendChild(script);
+  }
+
+  function bindTurnstileOnFormEngage() {
+    document.querySelectorAll("[data-contact-form]").forEach(function (form) {
+      if (form.getAttribute("data-turnstile-bound") === "1") return;
+      form.setAttribute("data-turnstile-bound", "1");
+      var load = function () { ensureTurnstileLoaded(); };
+      form.addEventListener("focusin", load, { once: true });
+      form.addEventListener("pointerdown", load, { once: true });
+    });
+  }
+
+  function resetTurnstile(form) {
+    var widget = form.querySelector(".cf-turnstile");
+    if (widget && window.turnstile && typeof window.turnstile.reset === "function") {
+      try { window.turnstile.reset(widget); } catch (e) {}
+    }
   }
 
   function fireExistingWebhook(form, data) {
@@ -656,19 +697,31 @@
           form.reportValidity();
           return;
         }
+        var submitBtn = form.querySelector('[type="submit"]');
         var tokenInput = form.querySelector('[name="' + TURNSTILE_FIELD + '"]');
         var turnstileToken = tokenInput ? tokenInput.value : "";
         if (!turnstileToken) {
+          ensureTurnstileLoaded();
           showFormError(form, "Please complete the security check before submitting.");
           return;
         }
         var formData = serializeForm(form);
+        if (submitBtn) submitBtn.disabled = true;
 
-        // Fire in parallel; neither call blocks the other or the redirect below.
+        // Optional webhook is best-effort and does not gate thank-you / Ads.
         fireExistingWebhook(form, formData);
-        sendLeadNotification(formData, turnstileToken);
 
-        window.location.href = THANK_YOU_PATH;
+        sendLeadNotification(formData, turnstileToken)
+          .then(function () {
+            fireGenerateLead();
+            window.location.href = THANK_YOU_PATH;
+          })
+          .catch(function (err) {
+            console.error("Lead submit failed:", err);
+            showFormError(form, FORM_ERROR_PHONE);
+            resetTurnstile(form);
+            if (submitBtn) submitBtn.disabled = false;
+          });
       });
     });
   }
@@ -684,6 +737,7 @@
     wirePhotoGallery();
     wireReviews();
     wireForms();
+    bindTurnstileOnFormEngage();
     // Capture attribution on every pageview, not lazily on submit — the
     // UTM params / referrer that identify the source are only present on
     // the page someone actually landed on, which may not be the page they
