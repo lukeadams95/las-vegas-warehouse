@@ -42,11 +42,20 @@
       document.head.appendChild(s);
     }
     function schedule() {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadGtag, { timeout: 3500 });
-      } else {
-        setTimeout(loadGtag, 1);
+      var done = false;
+      function go() {
+        if (done) return;
+        done = true;
+        ['pointerdown','keydown','scroll','touchstart'].forEach(function (ev) {
+          window.removeEventListener(ev, go, { capture: true });
+        });
+        loadGtag();
       }
+      ['pointerdown','keydown','scroll','touchstart'].forEach(function (ev) {
+        window.addEventListener(ev, go, { capture: true, passive: true, once: true });
+      });
+      // Fallback so analytics still loads on bounce / no interaction.
+      setTimeout(go, 8000);
     }
     if (document.readyState === 'complete') schedule();
     else window.addEventListener('load', schedule);
@@ -78,12 +87,9 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#ED0A04">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all';this.onload=null;">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:wght@400;600&family=Inter:wght@400;600;700&display=swap"></noscript>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript">
     (function(k) {
         if (window.location.hostname !== 'las-vegas-warehouse.pages.dev') return;
@@ -353,6 +359,6 @@
 </main>
 
 <footer id="site-footer"></footer>
-<script src="js/main.js" defer></script>
+<script src="/js/main.min.js" defer></script>
 </body>
 </html>

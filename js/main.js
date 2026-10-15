@@ -228,8 +228,10 @@
         requestAnimationFrame(update);
         ticking = true;
       }
-    });
-    update();
+    }, { passive: true });
+    // Initial read deferred to rAF: injectPartials() just mutated the DOM, so a
+    // synchronous scrollY read here forced a layout (Lighthouse "forced reflow").
+    requestAnimationFrame(update);
   }
 
   function wireDropdowns() {
