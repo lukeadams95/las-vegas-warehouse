@@ -5,9 +5,8 @@
    ivory/charcoal, rounded card imagery, ghost-watermark section headers).
    ========================================================================== */
 
-/* Font loading lives in each page's <head> as preconnect + <link rel="stylesheet">
-   rather than @import here — @import serializes CSS -> font CSS -> font files
-   into one blocking chain instead of letting the browser fetch them in parallel. */
+/* Fonts: self-hosted latin(+ext) subset in /css/fonts.css (linked from each page).
+   Do not @import fonts here — that serializes CSS -> font files. */
 
 :root {
   --color-bg: #f3f2f2;
@@ -335,9 +334,16 @@ button { font-family: inherit; cursor: pointer; }
 
 .hero-video {
   position: relative; height: calc(100vh - 108px); min-height: 600px; display: flex; flex-direction: column; overflow: hidden;
-  background-size: cover; background-position: center;
-  /* Contain layout: stable block size before background image paints (home-hero 1413×1113). */
+  background: var(--color-neutral-900);
+  /* Contain layout: stable block size before hero image paints (home-hero 1413×1113). */
   contain: layout;
+}
+/* Real <img> LCP surface — identical cover crop to former CSS background-image. */
+.hero-video .hero-bg-img {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  pointer-events: none;
 }
 .hero-video .video-scrim {
   position: absolute; inset: 0; z-index: 1;
