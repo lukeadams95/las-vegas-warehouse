@@ -622,16 +622,30 @@
     });
   }
 
-  function fireGenerateLead() {
+  // generate_lead is fired ONLY by /thank-you on load (single source of truth).
+  // This flag tells /thank-you that a real lead submit just succeeded, so a
+  // refresh, back-nav or direct visit to /thank-you doesn't count again.
+  // Careers applications are not leads: they go to /thank-you?form=careers
+  // and set no flag.
+  var LEAD_FLAG_KEY = "lvw_lead_submitted";
+  function markLeadSubmitted() {
+    try { sessionStorage.setItem(LEAD_FLAG_KEY, String(Date.now())); } catch (e) {}
+  }
+
+  // GA4 phone_call on any tel: link click (call intent only, not a connected call).
+  // Capture phase so it runs before the per-link Ads onclick handler.
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+    if (!a) return;
     try {
       if (typeof gtag === "function") {
-        gtag("event", "generate_lead", {
-          event_category: "engagement",
-          event_label: "contact_form",
+        gtag("event", "phone_call", {
+          phone_number: (a.getAttribute("href") || "").replace(/^tel:/, ""),
+          link_text: (a.textContent || "").trim().slice(0, 100),
         });
       }
-    } catch (e) {}
-  }
+    } catch (err) {}
+  }, true);
 
   var turnstileLoadStarted = false;
   function ensureTurnstileLoaded() {
@@ -715,8 +729,12 @@
 
         sendLeadNotification(formData, turnstileToken)
           .then(function () {
-            fireGenerateLead();
-            window.location.href = THANK_YOU_PATH;
+            if (form.getAttribute("data-form-type") === "careers") {
+              window.location.href = THANK_YOU_PATH + "?form=careers";
+            } else {
+              markLeadSubmitted();
+              window.location.href = THANK_YOU_PATH;
+            }
           })
           .catch(function (err) {
             console.error("Lead submit failed:", err);

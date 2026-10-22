@@ -42,10 +42,21 @@
           'value': 1.0,
           'currency': 'USD'
         });
-        gtag('event', 'generate_lead', {
-          event_category: 'engagement',
-          event_label: 'thank_you'
-        });
+        // generate_lead: the single GA4 lead event for this site. Only after a
+        // real lead submit (flag set by main.js), never for careers
+        // applications, refreshes or direct visits.
+        var isCareers = /[?&]form=careers(&|$)/.test(location.search);
+        var leadFlag = null, storageOk = true;
+        try {
+          leadFlag = sessionStorage.getItem('lvw_lead_submitted');
+          sessionStorage.removeItem('lvw_lead_submitted');
+        } catch (e) { storageOk = false; }
+        if (!isCareers && (leadFlag || !storageOk)) {
+          gtag('event', 'generate_lead', {
+            event_category: 'engagement',
+            event_label: 'thank_you'
+          });
+        }
         window.__gtagReady = true;
         window.dispatchEvent(new Event('gtag-ready'));
       };
@@ -67,8 +78,9 @@
       // Fallback so analytics still loads on bounce / no interaction.
       setTimeout(go, 8000);
     }
-    if (document.readyState === 'complete') schedule();
-    else window.addEventListener('load', schedule);
+    // Thank-you: load the tag right away (no interaction wait) so a visitor
+    // who reads the confirmation and leaves still records the page view + lead.
+    loadGtag();
   })();
 </script>
 
