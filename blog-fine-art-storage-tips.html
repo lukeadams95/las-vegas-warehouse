@@ -8,7 +8,12 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   function gtag_report_conversion(url) {
+    // Backup timer: if the Google tag never reports back (ad blocker, slow
+    // network), still place the call after 1.2s. done-flag prevents a double dial.
+    var done = false;
     var callback = function () {
+      if (done) return;
+      done = true;
       if (typeof(url) != 'undefined') {
         window.location = url;
       }
@@ -23,6 +28,7 @@
       'currency': 'USD',
       'event_callback': callback
     });
+    setTimeout(callback, 1200);
     return false;
   }
   (function () {

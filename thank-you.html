@@ -8,7 +8,12 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   function gtag_report_conversion(url) {
+    // Backup timer: if the Google tag never reports back (ad blocker, slow
+    // network), still place the call after 1.2s. done-flag prevents a double dial.
+    var done = false;
     var callback = function () {
+      if (done) return;
+      done = true;
       if (typeof(url) != 'undefined') {
         window.location = url;
       }
@@ -23,6 +28,7 @@
       'currency': 'USD',
       'event_callback': callback
     });
+    setTimeout(callback, 1200);
     return false;
   }
   (function () {
@@ -36,8 +42,10 @@
         gtag('js', new Date());
         gtag('config', 'G-WM135GSMP0');
         gtag('config', 'AW-18411956292');
+        var isCareers = /[?&]form=careers(&|$)/.test(location.search);
         // Thank-you is only reached after /api/send-lead-notification succeeds.
-        gtag('event', 'conversion', {
+        // Ads LEAD conversion skips careers applications (/thank-you?form=careers).
+        if (!isCareers) gtag('event', 'conversion', {
           'send_to': 'AW-18411956292/77KWCPzR-ugcEMTQwMtE',
           'value': 1.0,
           'currency': 'USD'
@@ -45,7 +53,6 @@
         // generate_lead: the single GA4 lead event for this site. Only after a
         // real lead submit (flag set by main.js), never for careers
         // applications, refreshes or direct visits.
-        var isCareers = /[?&]form=careers(&|$)/.test(location.search);
         var leadFlag = null, storageOk = true;
         try {
           leadFlag = sessionStorage.getItem('lvw_lead_submitted');
